@@ -3,7 +3,7 @@ import './Header.css';
 
 const Header = ({ children }) => {
   return (
-    <h2 className="header">
+    <h2 className="header text-center col-6 offset-3 mt-5">
       { children }
     </h2>
   )

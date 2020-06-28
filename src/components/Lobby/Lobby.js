@@ -1,13 +1,15 @@
 import React from 'react';
+
+import BodyLayout from '../common/BodyLayout';
 import Header from '../Header';
 import CheckInForm from '../CheckInForm';
 
 const Lobby = () => {
   return (
-    <div className='Lobby'>
+    <BodyLayout>
       <Header>ELiveNow Dance Room</Header>
       <CheckInForm />
-    </div>
+    </BodyLayout>
   );
 }
 
