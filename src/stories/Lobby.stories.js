@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Lobby from '../components/Lobby';
 
 export default {
@@ -8,20 +7,4 @@ export default {
   excludeStories: /.*Data$/,
 };
 
-export const withDevicesData = {
-  cameraList: [
-    {
-      name: 'Facetime HD Camera (Built-in)',
-      value: 'Facetime HD Camera (Built-in)',
-    }
-  ],
-  microphoneList: [
-    {
-      name: 'MacBook Pro Microphone (Built-in)',
-      value: 'MacBook Pro Microphone (Built-in)',
-    }
-  ]
-}
-
-export const withNoDevices = () => <Lobby/>;
-export const withDevices = () => <Lobby {...withDevicesData}/>;
+export const Default = () => <Lobby/>;

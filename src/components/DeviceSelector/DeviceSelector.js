@@ -11,8 +11,8 @@ const DeviceSelector = ({ deviceType, deviceList }) => {
     <Input type="select" name="select" id="camera" className="col-8">
       {
         deviceList.length > 0
-          ? deviceList.map(({ name, value }) => (<option value={value}>{name}</option>))
-          : <option value="" disabled selected>No {deviceType} is detected</option>
+          ? deviceList.map(({ label, value }) => (<option value={value} key={label}>{label}</option>))
+          : <option value="">No {deviceType} is detected</option>
       }
     </Input>
   </FormGroup>

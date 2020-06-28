@@ -1,21 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import Button from "./components/Button";
+import { HashRouter } from 'react-router-dom';
+
+import ChimeProvider from './providers/ChimeProvider';
+import I18nProvider from './providers/I18nProvider';
+import Routes from './Routes';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          <Button>Hello, Storybook!</Button>
-        </p>
-      </header>
-    </div>
+    <HashRouter>
+      <I18nProvider>
+        <ChimeProvider>
+          <Routes />
+        </ChimeProvider>
+      </I18nProvider>
+    </HashRouter>
   );
 }
 
