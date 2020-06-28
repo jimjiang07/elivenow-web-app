@@ -4,11 +4,11 @@ import BodyLayout from '../common/BodyLayout';
 import Header from '../Header';
 import CheckInForm from '../CheckInForm';
 
-const Lobby = () => {
+const Lobby = (props) => {
   return (
     <BodyLayout>
       <Header>ELiveNow Dance Room</Header>
-      <CheckInForm />
+      <CheckInForm cameraList={props.cameraList} microphoneList={props.microphoneList}/>
     </BodyLayout>
   );
 }

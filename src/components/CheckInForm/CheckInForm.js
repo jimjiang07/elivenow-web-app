@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 import './CheckInForm.css';
 
-const CheckInForm = () => {
+const CheckInForm = ({ cameraList, microphoneList }) => {
   return (
     <div class='container p-3'>
       <Form className='col-10 offset-1 col-md-6 offset-md-3 p-4 border border-primary rounded form-checkin'>
@@ -17,14 +18,14 @@ const CheckInForm = () => {
           <div className="col-8 d-flex align-items-center">
             <FormGroup check className="col-6">
               <Label check>
-                <Input type="radio" name="user-role" />{' '}
-                Teacher
+                <Input type="radio" name="user-role" checked/>{' '}
+                Student
               </Label>
             </FormGroup>
             <FormGroup check className="col-6">
               <Label check>
-                <Input type="radio" name="user-role" />{' '}
-                Student
+                <Input type="radio" name="user-role"/>{' '}
+                Teacher
               </Label>
             </FormGroup>
           </div>
@@ -33,14 +34,22 @@ const CheckInForm = () => {
         <FormGroup className="d-flex align-items-center mb-4">
           <Label for="camera" className="col-4">Camera:</Label>
           <Input type="select" name="select" id="camera" className="col-8">
-            <option>FaceTime HD Camera (Built-in)</option>
+            {
+              cameraList.length > 0
+                ? cameraList.map(({ name, value }) => (<option value={value}>{name}</option>))
+                : <option value="" disabled selected>No camera is detected</option>
+            }
           </Input>
         </FormGroup>
 
         <FormGroup className="d-flex align-items-center mb-4">
           <Label for="microphone" className="col-4">Microphone:</Label>
           <Input type="select" name="select" id="microphone" className="col-8">
-            <option>MacBook Pro Speakers</option>
+            {
+              microphoneList.length > 0
+                ? microphoneList.map(({ name, value }) => (<option value={value}>{name}</option>))
+                : <option value="" disabled selected>No microphone is detected</option>
+            }
           </Input>
         </FormGroup>
 
@@ -50,4 +59,21 @@ const CheckInForm = () => {
   )
 }
 
+CheckInForm.propTypes = {
+  cameraList: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    value: PropTypes.string,
+  })),
+  microphoneList: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    value: PropTypes.string,
+  }))
+}
+
+CheckInForm.defaultProps = {
+  cameraList: [],
+  microphoneList: [],
+};
+
 export default CheckInForm;
+
