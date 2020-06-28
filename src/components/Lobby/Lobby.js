@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { Spinner } from 'reactstrap';
 
 import BodyLayout from '../common/BodyLayout';
 import Header from '../Header';
 import CheckInForm from '../CheckInForm';
 import DeviceCheckForm from '../DeviceCheckForm';
+import Loading from '../Loading';
 
 import getMeetingContext from '../../context/getMeetingContext';
 
@@ -24,18 +24,12 @@ const Lobby = (props) => {
     setIsMeetingInitialized(true);
   }
 
-  if (isLoading) {
-    return (
-      <Spinner color="primary" />
-    )
-  }
-
   return (
     <BodyLayout>
       <Header>ELiveNow Dance Room</Header>
       {
         isLoading
-          ? <Spinner color="primary" />
+          ? <Loading text={'Joining class now...'}/>
           : isMeetingInitialized
             ? <DeviceCheckForm />
             : <CheckInForm onCheckInSubmit={onCheckInSubmit}/>
