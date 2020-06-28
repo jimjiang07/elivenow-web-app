@@ -2,9 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
+import DeviceSelector from '../DeviceSelector'
+import { DEVICE_TYPES } from "../../constants";
+
 import './CheckInForm.css';
 
-const CheckInForm = ({ cameraList, microphoneList }) => {
+const CheckInForm = ({ cameraList, microphoneList, speakerList }) => {
   return (
     <div class='container p-3'>
       <Form className='col-10 offset-1 col-md-6 offset-md-3 p-4 border border-primary rounded form-checkin'>
@@ -31,27 +34,9 @@ const CheckInForm = ({ cameraList, microphoneList }) => {
           </div>
         </FormGroup>
 
-        <FormGroup className="d-flex align-items-center mb-4">
-          <Label for="camera" className="col-4">Camera:</Label>
-          <Input type="select" name="select" id="camera" className="col-8">
-            {
-              cameraList.length > 0
-                ? cameraList.map(({ name, value }) => (<option value={value}>{name}</option>))
-                : <option value="" disabled selected>No camera is detected</option>
-            }
-          </Input>
-        </FormGroup>
-
-        <FormGroup className="d-flex align-items-center mb-4">
-          <Label for="microphone" className="col-4">Microphone:</Label>
-          <Input type="select" name="select" id="microphone" className="col-8">
-            {
-              microphoneList.length > 0
-                ? microphoneList.map(({ name, value }) => (<option value={value}>{name}</option>))
-                : <option value="" disabled selected>No microphone is detected</option>
-            }
-          </Input>
-        </FormGroup>
+        <DeviceSelector deviceType={DEVICE_TYPES.CAMERA} deviceList={cameraList}/>
+        <DeviceSelector deviceType={DEVICE_TYPES.MICROPHONE} deviceList={microphoneList}/>
+        <DeviceSelector deviceType={DEVICE_TYPES.SPEAKER} deviceList={speakerList}/>
 
         <Button color="primary" className="col-6 offset-3">Join class</Button>
       </Form>
@@ -73,6 +58,7 @@ CheckInForm.propTypes = {
 CheckInForm.defaultProps = {
   cameraList: [],
   microphoneList: [],
+  speakerList: [],
 };
 
 export default CheckInForm;
