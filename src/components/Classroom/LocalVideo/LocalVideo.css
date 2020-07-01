@@ -1,0 +1,32 @@
+.local-video-tile {
+  width: 355px;
+  height: 200px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+.local-video-tile__video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.25rem;
+  object-fit: cover;
+}
+
+.local-video-tile__video.hidden,
+.local-video-tile__place-holder.hidden {
+  display: none;
+  overflow: hidden;
+}
+
+.local-video-tile__place-holder {
+  display: block;
+  background-color: gray;
+
+  /* font */
+  line-height: 200px;
+  color: black;
+  text-align: center;
+  font-size: 22px;
+}

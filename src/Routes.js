@@ -2,18 +2,25 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Lobby from './components/Lobby';
+import Classroom from './components/Classroom';
 
 export default function Routes() {
+
   return (
-    <Switch>
-      <Route exact path="/">
-          <Redirect to="/join" />
-      </Route>
-      <Route path={'/join'}>
-        <Lobby />
-      </Route>
-    </Switch>
+    <Router>
+      <Switch>
+        <Route exact path='/'>
+            <Redirect to='/join' />
+        </Route>
+        <Route path='/join'>
+          <Lobby />
+        </Route>
+        <Route path='/classroom'>
+          <Classroom />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
