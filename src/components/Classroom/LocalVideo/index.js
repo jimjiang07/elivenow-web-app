@@ -22,11 +22,8 @@ export default function LocalVideo() {
         return;
       }
 
-      console.log(chime);
-
       chime.audioVideo.addObserver({
         videoTileDidUpdate: (tileState) => {
-          console.log('videoTileDidUpdate', tileState);
           if (
             !tileState.boundAttendeeId ||
             !tileState.localTile ||
@@ -35,6 +32,7 @@ export default function LocalVideo() {
           ) {
             return;
           }
+
           chime.audioVideo.bindVideoElement(
             tileState.tileId,
             videoElement.current

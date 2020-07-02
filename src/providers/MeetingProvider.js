@@ -13,7 +13,7 @@ import { useHistory } from 'react-router-dom';
 
 import getChimeContext from '../context/getChimeContext';
 import getMeetingContext from '../context/getMeetingContext';
-import { MEETING_STATUS, DEFAULT_REGION, DEFAULT_ROOM_NAME } from '../constants'
+import { MEETING_STATUS, DEFAULT_REGION, DEFAULT_ROOM_NAME, USER_ROLES } from '../constants'
 
 export default function MeetingProvider(props) {
   const MeetingStatusContext = getMeetingContext();
@@ -23,6 +23,7 @@ export default function MeetingProvider(props) {
   const [meetingStatus, setMeetingStatus] = useState({
     meetingStatus: MEETING_STATUS.LOADING
   });
+  const [localUserRole, setLocalUserRole] = useState(USER_ROLES.STUDENT);
   const history = useHistory();
   const audioElement = useRef(null);
 
@@ -52,6 +53,8 @@ export default function MeetingProvider(props) {
       });
 
       await chime.joinRoom(audioElement.current);
+
+      setLocalUserRole(userRole);
     } catch (error) {
       // eslint-disable-next-line
       console.error(error);
@@ -65,6 +68,7 @@ export default function MeetingProvider(props) {
   return (
     <MeetingStatusContext.Provider value={{
       meetingStatus,
+      localUserRole,
       startMeeting,
     }}>
       {/* eslint-disable-next-line */}

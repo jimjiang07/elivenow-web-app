@@ -18,3 +18,5 @@ export const MEETING_STATUS = {
 export const DEFAULT_ROOM_NAME = 'ELiveNowBeta';
 
 export const DEFAULT_REGION = 'ap-southeast-2';
+
+export const MAX_REMOTE_VIDEOS = 16;

@@ -180,7 +180,7 @@ export default class ChimeSdkWrapper {
   initializeMeetingSession = async (
     configuration
   ) => {
-    const logger = new ConsoleLogger('SDK', LogLevel.DEBUG);
+    const logger = new ConsoleLogger('SDK', LogLevel.ERROR);
     const deviceController = new DefaultDeviceController(logger);
     this.meetingSession = new DefaultMeetingSession(
       configuration,

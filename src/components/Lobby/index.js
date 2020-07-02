@@ -7,12 +7,11 @@ import DeviceCheckForm from '../DeviceCheckForm';
 import Loading from '../Loading';
 
 import getMeetingContext from '../../context/getMeetingContext';
-import { MEETING_STATUS } from '../../constants'
 
 const Lobby = (props) => {
   const [isMeetingInitialized, setIsMeetingInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { meetingStatus, startMeeting } = useContext(getMeetingContext());
+  const { startMeeting } = useContext(getMeetingContext());
 
   const onCheckInSubmit = async ({ userName, userRole }) => {
     console.log(`Creating a meeting for ${userRole} ${userName}`);
