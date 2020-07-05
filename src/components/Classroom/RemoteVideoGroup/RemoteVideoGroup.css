@@ -1,13 +1,50 @@
-.remote-video-group__students {
+.remote-video-group__students.grid {
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
+  background-color: grey;
+}
+
+.remote-video-group__students.vertical_left {
+  /* position: absolute;
+  top: 0px;
+  left: 0px; */
+  width: 355px;
+  height: 100%;
+  max-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
+  z-index: 1;
+  background-color: grey;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.remote-video-group__students.vertical_left::-webkit-scrollbar {
+  width: 5px;
+}
+
+.remote-video-group__students.vertical_left::-webkit-scrollbar-track {
+  background: grey;        /* color of the tracking area */
+  width: 5px;
+}
+.remote-video-group__students.vertical_left::-webkit-scrollbar-thumb {
+  background-color: #007bff;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid #007bff;  /* creates padding around scroll thumb */
 }
 
 .remote-video-group__student-tile {
   width: 355px;
   height: 200px;
+  box-sizing: content-box; /* So the width will be 100% + 17px */
+  object-fit: contain;
 }
 
 .remote-video-group__student-tile.hidden{
@@ -16,12 +53,15 @@
 }
 
 .remote-video-group__teacher-tile {
-  height: 100%;
+  /* height: 100%;
   width: 100%;
   left: 0;
   top: 0;
   overflow: hidden;
   position: fixed;
+  z-index: 0; */
+  width: 100%;
+  height: 100vh;
 }
 
 .remote-video-group__teacher-tile-video-place-holder {
@@ -49,5 +89,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.remote-video-group__student-view {
+  display: flex;
 }
 

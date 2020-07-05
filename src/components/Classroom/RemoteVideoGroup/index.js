@@ -1,8 +1,13 @@
-import React, { useContext, useEffect, useCallback, useState, useRef } from 'react';
-import classNames from 'classnames'
+import React, { useContext, useEffect, useCallback, useState } from 'react';
 import getChimeContext from '../../../context/getChimeContext';
-import { MAX_REMOTE_VIDEOS, USER_ROLES } from '../../../constants'
+import VideoTile from '../../VideoTile';
+import { MAX_REMOTE_VIDEOS, USER_ROLES } from '../../../constants';
 import './RemoteVideoGroup.css';
+
+const STUDENT_TILES_LAYOUT = {
+  GRID: 'grid',
+  VERTICAL_LEFT: 'vertical_left',
+}
 
 export default function RemoteVideoGroup({ localUserRole }) {
   const chime = useContext(getChimeContext());
@@ -109,14 +114,10 @@ export default function RemoteVideoGroup({ localUserRole }) {
     });
   }, [chime]);
 
-  const renderStudentTiles = () => (
-    <div className='remote-video-group__students'>
+  const renderStudentTiles = (layout = STUDENT_TILES_LAYOUT.VERTICAL_LEFT, videoContainerStyle = {}) => (
+    <div className={`remote-video-group__students ${layout}`}>
       {Array.from(Array(numberOfStudentTile).keys()).map((key, index) => {
         const visibleIndex = visibleIndices[index];
-
-        const remoteVideoTileClassName = classNames('remote-video-group__student-tile', {
-          'hidden': !visibleIndex,
-        })
 
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const getElementRef = useCallback(
@@ -127,34 +128,19 @@ export default function RemoteVideoGroup({ localUserRole }) {
           },
           [],
         )
-        return (
-          <div className={remoteVideoTileClassName} key={key}>
-            <video
-              className='remote-video-group__video'
-              muted
-              ref={getElementRef}
-            />
-          </div>
-        );
+
+        return ( <VideoTile getVideoElementRef={getElementRef} hidden={!visibleIndex} containerStyle={videoContainerStyle}/> );
       })}
     </div>
   )
 
   const teacherLayout = () => (
     <div className='remote-video-group__teacher-view'>
-      {renderStudentTiles()}
+      {renderStudentTiles(STUDENT_TILES_LAYOUT.GRID, { width: 355, height: 200 })}
     </div>
   );
 
   const studentLayout = () => {
-    const teacherVideoClassName = classNames('remote-video-group__video', {
-      'hidden': !teacherIndice,
-    })
-
-    const teacherPlaceHolderClassName = classNames('remote-video-group__teacher-tile-video-place-holder', {
-      'hidden': teacherIndice,
-    })
-
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const getTeacherElementRef = useCallback(
       (element) => {
@@ -167,15 +153,11 @@ export default function RemoteVideoGroup({ localUserRole }) {
 
     return (
       <div className='remote-video-group__student-view'>
-        <div className='remote-video-group__teacher-tile'>
-          <video
-            className={teacherVideoClassName}
-            muted
-            ref={getTeacherElementRef}
-          />
-          <div className={teacherPlaceHolderClassName}>Teacher is not in the room.</div>
-        </div>
-        {renderStudentTiles()}
+        {renderStudentTiles(STUDENT_TILES_LAYOUT.VERTICAL_LEFT)}
+        <VideoTile getVideoElementRef={getTeacherElementRef} hidden={!teacherIndice} containerStyle={{
+          width: '100%',
+          height: '100vh'
+        }}/>
       </div>
     )
   };

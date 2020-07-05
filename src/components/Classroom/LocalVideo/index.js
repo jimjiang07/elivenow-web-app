@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import classNames from 'classnames'
+import classNames from 'classnames';
+import VideoTile from '../../VideoTile';
 import getChimeContext from '../../../context/getChimeContext';
 import './LocalVideo.css';
 
@@ -57,8 +58,7 @@ export default function LocalVideo() {
 
   return (
     <div className='local-video-tile'>
-      <video muted ref={videoElement} className={videoClassName}/>
-      <div className={videoPlaceHolderClassName}>Loading</div>
+      <VideoTile getVideoElementRef={videoElement} hidden={!videoEnabled} placeHolderText="Loading"/>
     </div>
   );
 }
