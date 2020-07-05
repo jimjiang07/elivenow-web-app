@@ -1,24 +1,53 @@
-.remote-video-group {
+.remote-video-group__students {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 
-.remote-video-group__tile {
+.remote-video-group__student-tile {
   width: 355px;
   height: 200px;
 }
 
-.remote-video-group__tile.hidden{
+.remote-video-group__student-tile.hidden{
   display: none;
   overflow: hidden;
 }
 
-.remote-video-group__tile-video {
+.remote-video-group__teacher-tile {
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  position: fixed;
+}
+
+.remote-video-group__teacher-tile-video-place-holder {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 0.25rem;
+  object-fit: cover;
+  background-color: gray;
+
+  /* font */
+  line-height: 200px;
+  color: black;
+  text-align: center;
+  font-size: 22px;
+}
+
+.remote-video-group__video.hidden,
+.remote-video-group__teacher-tile-video-place-holder.hidden {
+  display: none;
+  overflow: hidden;
+}
+
+.remote-video-group__video {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
+
