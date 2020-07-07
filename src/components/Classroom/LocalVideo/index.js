@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import classNames from 'classnames';
 import VideoTile from '../../VideoTile';
 import getChimeContext from '../../../context/getChimeContext';
 import './LocalVideo.css';
@@ -8,14 +7,6 @@ export default function LocalVideo() {
   const [videoEnabled, setVideoEnabled] = useState(false);
   const chime = useContext(getChimeContext());
   const videoElement = useRef(null);
-
-  const videoClassName = classNames('local-video-tile__video', {
-    'hidden': !videoEnabled,
-  })
-
-  const videoPlaceHolderClassName = classNames('local-video-tile__place-holder', {
-    'hidden': videoEnabled,
-  })
 
   useEffect(() => {
     async function initialize() {
@@ -58,7 +49,7 @@ export default function LocalVideo() {
 
   return (
     <div className='local-video-tile'>
-      <VideoTile getVideoElementRef={videoElement} hidden={!videoEnabled} placeHolderText="Loading"/>
+      <VideoTile getVideoElementRef={videoElement} hidden={!videoEnabled} placeHolderText="You"/>
     </div>
   );
 }

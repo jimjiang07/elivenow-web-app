@@ -1,0 +1,19 @@
+.ControlButton {
+  border: none;
+  background: transparent;
+  color: lightslategray;
+  font-size: 14px;
+}
+
+.ControlButton.active {
+  color: black;
+}
+
+.ControlButton:hover {
+  color: black;
+}
+
+.ControlButton:focus,
+.ControlButton:active {
+  outline: none;
+}
