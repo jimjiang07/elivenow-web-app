@@ -381,7 +381,7 @@ export default class ChimeSdkWrapper {
       return;
     }
     const message = {
-      message: 'sendmessage',
+      action: 'sendmessage',
       data: JSON.stringify({ type, payload })
     };
     try {
