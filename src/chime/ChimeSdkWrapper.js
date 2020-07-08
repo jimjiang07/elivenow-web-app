@@ -351,7 +351,7 @@ export default class ChimeSdkWrapper {
       new FullJitterBackoff(1000, 0, 10000)
     );
 
-    await this.messagingSocket.open(ChimeSdkWrapper.WEB_SOCKET_TIMEOUT_MS);
+    await this.messagingSocket.open(this.WEB_SOCKET_TIMEOUT_MS);
 
     this.messagingSocket.addEventListener('message', (event) => {
       try {
@@ -386,6 +386,8 @@ export default class ChimeSdkWrapper {
     };
     try {
       this.messagingSocket.send(JSON.stringify(message));
+
+      console.log(message);
     } catch (error) {
       this.logError(error);
     }
@@ -399,7 +401,7 @@ export default class ChimeSdkWrapper {
     }
 
     try {
-      await this.messagingSocket.close(ChimeSdkWrapper.WEB_SOCKET_TIMEOUT_MS);
+      await this.messagingSocket.close(this.WEB_SOCKET_TIMEOUT_MS);
     } catch (error) {
       this.logError(error);
     }
@@ -452,6 +454,20 @@ export default class ChimeSdkWrapper {
       this.logError(error);
     }
   };
+
+  chooseCurrentVideoInputDevice = async () => {
+    if (!this.currentVideoInputDevice) {
+      throw new Error('currentVideoInputDevice does not exist');
+    }
+    await this.chooseVideoInputDevice(this.currentVideoInputDevice);
+  }
+
+  chooseCurrentAudioInputDevice = async () => {
+    if (!this.currentAudioInputDevice) {
+      throw new Error('currentAudioInputDevice does not exist');
+    }
+    await this.chooseAudioInputDevice(this.currentAudioInputDevice);
+  }
 
   /**
    * ====================================================================
@@ -580,6 +596,7 @@ export default class ChimeSdkWrapper {
   }, ChimeSdkWrapper.ROSTER_THROTTLE_MS);
 
   subscribeToMessageUpdate = (callback) => {
+    console.log('subscribeToMessageUpdate');
     this.messageUpdateCallbacks.push(callback);
   };
 
