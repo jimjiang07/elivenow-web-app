@@ -5,11 +5,9 @@ import VideoButton from './VideoButton';
 import ExitButton from './ExitButton';
 import FocusButton from './FocusButton';
 
-import './ControlsGroup.css';
-
 const ControlsGroup = ({ microphoneControl, videoControl, exitControl, focusControl = null }) => {
   return (
-    <div className='ControlGroup'>
+    <div className='ControlsGroup'>
       <MicrophoneButton {...microphoneControl}/>
       <VideoButton {...videoControl}/>
       <ExitButton {...exitControl}/>

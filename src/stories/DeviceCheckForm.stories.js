@@ -1,26 +1,26 @@
 import React from 'react';
-import DeviceCheckForm from '../components/DeviceCheckForm';
+import DeviceCheckFormBase from '../components/DeviceCheckForm/DeviceCheckFormBase';
 
 export default {
-  title: 'DeviceCheckForm',
-  component: DeviceCheckForm,
+  title: 'DeviceCheckFormBase',
+  component: DeviceCheckFormBase,
   excludeStories: /.*Data$/,
 };
 
 export const withDevicesData = {
   cameraList: [
     {
-      name: 'Facetime HD Camera (Built-in)',
+      label: 'Facetime HD Camera (Built-in)',
       value: 'Facetime HD Camera (Built-in)',
     }
   ],
   microphoneList: [
     {
-      name: 'MacBook Pro Microphone (Built-in)',
+      label: 'MacBook Pro Microphone (Built-in)',
       value: 'MacBook Pro Microphone (Built-in)',
     }
   ]
 }
 
-export const withNoDevices = () => <DeviceCheckForm/>;
-export const withDevices = () => <DeviceCheckForm {...withDevicesData}/>;
+export const withNoDevices = () => <DeviceCheckFormBase/>;
+export const withDevices = () => <DeviceCheckFormBase devices={withDevicesData}/>;

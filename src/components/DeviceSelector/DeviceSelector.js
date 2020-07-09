@@ -32,4 +32,8 @@ DeviceSelector.propTypes = {
   }))
 };
 
+DeviceSelector.defaultProps = {
+  deviceList: [],
+}
+
 export default DeviceSelector;

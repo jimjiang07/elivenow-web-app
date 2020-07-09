@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { USER_ROLES } from '../../constants'
 
-import './CheckInForm.css';
-
 const CheckInForm = ({ onCheckInSubmit }) => {
   const [userName, setUserName] = useState(null);
   const [userRole, setUserRole] = useState(USER_ROLES.STUDENT);
 
   return (
     <div className='container p-3'>
-      <Form className='col-10 offset-1 col-md-6 offset-md-3 p-4 border border-primary rounded form-checkin' onSubmit={(event) => {
+      <Form className='col-10 offset-1 col-md-6 offset-md-3 p-4 form-checkin' onSubmit={(event) => {
         event.preventDefault();
         onCheckInSubmit({ userName, userRole });
       }}>
