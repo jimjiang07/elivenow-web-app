@@ -10,8 +10,8 @@ const ControlsGroup = ({ microphoneControl, videoControl, exitControl, focusCont
     <div className='ControlsGroup'>
       <MicrophoneButton {...microphoneControl}/>
       <VideoButton {...videoControl}/>
-      <ExitButton {...exitControl}/>
       {focusControl && <FocusButton {...focusControl}/>}
+      <ExitButton {...exitControl}/>
     </div>
   )
 }

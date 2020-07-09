@@ -8,7 +8,7 @@ import getChimeContext from '../../context/getChimeContext';
 import ClassroomBase from "./ClassroomBase"
 
 // Hooks
-import useFocusMode from '../../hooks/useFocusMode'
+import useTeacherMessage from '../../hooks/useTeacherMessage'
 
 // Others
 import { USER_ROLES } from '../../constants';
@@ -17,7 +17,7 @@ const Classroom = () => {
   const chime = useContext(getChimeContext());
   const { localUserRole } = useContext(getMeetingContext());
 
-  useFocusMode();
+  const { focusMode } = useTeacherMessage();
 
   useEffect(() => {
     if (!chime) {
@@ -45,7 +45,7 @@ const Classroom = () => {
   }, [chime, localUserRole])
 
   return (
-    <ClassroomBase localUserRole={localUserRole}/>
+    <ClassroomBase localUserRole={localUserRole} focusMode={focusMode} />
   )
 }
 

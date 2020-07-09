@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ControlButton from "./ControlButton";
 
-const MicrophoneButton = ({ enabled, onClick }) => {
+const MicrophoneButton = ({ enabled, onClick, banned }) => {
   return (
     <ControlButton
       onClick={onClick}
       active={enabled}
     >
-      <i className="flaticon-microphone-1" />
+      {banned ? <i className="flaticon-microphone" /> : <i className="flaticon-microphone-1" />}
     </ControlButton>
   )
 }

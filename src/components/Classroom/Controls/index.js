@@ -9,7 +9,7 @@ import ControlsGroup from "./ControlsGroup";
 
 import { USER_ROLES } from '../../../constants'
 
-export default function Controls({ localUserRole }) {
+export default function Controls({ localUserRole, focusMode }) {
   const chime = useContext(getChimeContext());
   const history = useHistory();
   const [microphoneEnabled, setMicrophoneEnabled] = useState(localUserRole === USER_ROLES.TEACHER);
@@ -75,20 +75,21 @@ export default function Controls({ localUserRole }) {
     <ControlsGroup
       microphoneControl={{
         enabled: microphoneEnabled,
+        banned: focusMode,
         onClick: onMicrophoneButtonClick,
       }}
       videoControl={{
         enabled: videoEnabled,
         onClick: onVideoButtonClick,
       }}
-      exitControl={{
-        enabled: false,
-        onClick: onExitButtonClick,
-      }}
       focusControl={ localUserRole === USER_ROLES.TEACHER ? {
         enabled: focus,
         onClick: onFocusButtonClick,
       } : null}
+      exitControl={{
+        enabled: true,
+        onClick: onExitButtonClick,
+      }}
     />
   );
 }
