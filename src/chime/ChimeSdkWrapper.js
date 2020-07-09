@@ -382,6 +382,7 @@ export default class ChimeSdkWrapper {
     }
     const message = {
       action: 'sendmessage',
+      MeetingId: this.configuration.meetingId,
       data: JSON.stringify({ type, payload })
     };
     try {

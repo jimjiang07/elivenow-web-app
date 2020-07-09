@@ -17,6 +17,10 @@ export default function Controls({ localUserRole }) {
   const [focus, setFocus] = useState(false);
 
   useEffect(() => {
+    if (!chime) {
+      return;
+    }
+
     const callback = (localMuted) => {
       setMicrophoneEnabled(!localMuted);
     };
@@ -62,8 +66,6 @@ export default function Controls({ localUserRole }) {
   }
 
   const onFocusButtonClick = () => {
-    console.log('onFocusButtonClick');
-
     const newFocusState = !focus;
     chime.sendMessage('focus', { focus: newFocusState });
     setFocus(newFocusState);

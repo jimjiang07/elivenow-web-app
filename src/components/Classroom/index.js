@@ -5,9 +5,7 @@ import getMeetingContext from '../../context/getMeetingContext';
 import getChimeContext from '../../context/getChimeContext';
 
 // Components
-import LocalVideo from "./LocalVideo";
-import RemoteVideoGroup from "./RemoteVideoGroup";
-import Controls from './Controls'
+import ClassroomBase from "./ClassroomBase"
 
 // Hooks
 import useFocusMode from '../../hooks/useFocusMode'
@@ -47,11 +45,7 @@ const Classroom = () => {
   }, [chime, localUserRole])
 
   return (
-    <div className="classroom">
-      <RemoteVideoGroup localUserRole={localUserRole} />
-      <LocalVideo />
-      <Controls localUserRole={localUserRole} />
-    </div>
+    <ClassroomBase localUserRole={localUserRole}/>
   )
 }
 
