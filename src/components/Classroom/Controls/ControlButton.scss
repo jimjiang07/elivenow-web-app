@@ -1,12 +1,12 @@
 .ControlButton {
   border: none;
   background: transparent;
-  color: lightslategray;
+  color: $light-grey;
   font-size: 14px;
 }
 
 .ControlButton.active {
-  color: black;
+  color: $sapphire-blue;
 }
 
 .ControlButton:focus,

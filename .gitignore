@@ -24,4 +24,4 @@ yarn-error.log*
 
 /storybook-static
 
-src/index.css
+/src/index.css
