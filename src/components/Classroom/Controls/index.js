@@ -12,10 +12,15 @@ import { USER_ROLES } from '../../../constants'
 export default function Controls({ localUserRole }) {
   const chime = useContext(getChimeContext());
   const history = useHistory();
-  const [microphoneEnabled, setMicrophoneEnabled] = useState(true);
+  const [microphoneEnabled, setMicrophoneEnabled] = useState(localUserRole === USER_ROLES.TEACHER);
   const [videoEnabled, setVideoEnabled] = useState(true);
+  const [focus, setFocus] = useState(false);
 
   useEffect(() => {
+    if (!chime) {
+      return;
+    }
+
     const callback = (localMuted) => {
       setMicrophoneEnabled(!localMuted);
     };
@@ -41,12 +46,7 @@ export default function Controls({ localUserRole }) {
     if (!videoEnabled) {
       setVideoEnabled(true);
       try {
-        if (!chime.currentVideoInputDevice) {
-          throw new Error('currentVideoInputDevice does not exist');
-        }
-        await chime.chooseVideoInputDevice(
-          chime.currentVideoInputDevice
-        );
+        await chime.chooseCurrentVideoInputDevice();
         chime.audioVideo.startLocalVideoTile();
       } catch (error) {
         // eslint-disable-next-line
@@ -65,6 +65,12 @@ export default function Controls({ localUserRole }) {
     history.push('/');
   }
 
+  const onFocusButtonClick = () => {
+    const newFocusState = !focus;
+    chime.sendMessage('focus', { focus: newFocusState });
+    setFocus(newFocusState);
+  }
+
   return (
     <ControlsGroup
       microphoneControl={{
@@ -79,6 +85,10 @@ export default function Controls({ localUserRole }) {
         enabled: false,
         onClick: onExitButtonClick,
       }}
+      focusControl={ localUserRole === USER_ROLES.TEACHER ? {
+        enabled: focus,
+        onClick: onFocusButtonClick,
+      } : null}
     />
   );
 }

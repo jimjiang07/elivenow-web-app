@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import MicrophoneButton from './MicrophoneButton';
 import VideoButton from './VideoButton';
 import ExitButton from './ExitButton';
+import FocusButton from './FocusButton';
 
-import './ControlsGroup.css';
-
-const ControlsGroup = ({ microphoneControl, videoControl, exitControl }) => {
+const ControlsGroup = ({ microphoneControl, videoControl, exitControl, focusControl = null }) => {
   return (
-    <div className='ControlGroup'>
+    <div className='ControlsGroup'>
       <MicrophoneButton {...microphoneControl}/>
       <VideoButton {...videoControl}/>
       <ExitButton {...exitControl}/>
+      {focusControl && <FocusButton {...focusControl}/>}
     </div>
   )
 }
@@ -22,7 +22,7 @@ const controlType = PropTypes.shape({
 })
 
 ControlsGroup.propTypes = {
-  micrphoneControl: controlType.isRequired,
+  microphoneControl: controlType.isRequired,
   videoControl: controlType,
   exitControl: controlType,
 }

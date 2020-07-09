@@ -1,0 +1,19 @@
+.ControlsGroup {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0;
+  right: 45%;
+  background-color: $azure-x-11-web-color;
+  border-radius: 5px 5px 0px 0px;
+  opacity: 30%;
+
+  &:hover {
+    opacity: 100%;
+  }
+}
+
+.ControlsGroup > button {
+  margin: 5px;
+}

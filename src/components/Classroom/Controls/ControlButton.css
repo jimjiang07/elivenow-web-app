@@ -9,10 +9,6 @@
   color: black;
 }
 
-.ControlButton:hover {
-  color: black;
-}
-
 .ControlButton:focus,
 .ControlButton:active {
   outline: none;

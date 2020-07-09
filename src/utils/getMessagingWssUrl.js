@@ -1,3 +1,3 @@
 export default function getMessagingWssUrl() {
-  return '';
+  return process.env.NODE_ENV === 'prd' ? 'https://socket.elivenow.co/': 'ws://localhost:4001';
 }
