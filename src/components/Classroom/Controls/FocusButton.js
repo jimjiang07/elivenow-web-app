@@ -2,19 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ControlButton from "./ControlButton";
 
-const FocusButton = ({ enabled, onClick }) => {
+const FocusButton = ({ isOn, onClick }) => {
   return (
     <ControlButton
       onClick={onClick}
-      active={enabled}
     >
-      <i className='flaticon-chat' />
+      <i className="material-icons md-24">{isOn ? 'volume_off' : 'volume_up'}</i>
     </ControlButton>
   )
 }
 
 FocusButton.propTypes = {
-  enabled: PropTypes.bool.isRequired,
+  isOn: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 }
 

@@ -8,20 +8,23 @@ export default {
 };
 
 const DefaultData = {
-  micrphoneControl: {
-    enabled: true,
+  microphoneControl: {
+    isOn: true,
+    banned: false,
     onClick: () => {},
   },
   videoControl: {
-    enabled: true,
+    isOn: true,
     onClick: () => {},
   },
   exitControl: {
-    enabled: false,
+    isOn: false,
     onClick: () => {},
   },
 }
 
 export const Default = () => <ControlsGroup {...DefaultData}/>;
-export const MicrphoneDisabled = () => <ControlsGroup {...DefaultData} micrphoneControl={{ enabled: false, onClick: () => {}}}/>;
-export const VideoDisabled = () => <ControlsGroup {...DefaultData} videoControl={{ enabled: false, onClick: () => {}}}/>;
+export const MicrphoneIsOff = () => <ControlsGroup {...DefaultData} microphoneControl={{ isOn: false, onClick: () => {} }}/>;
+export const VideoIsOff = () => <ControlsGroup {...DefaultData} videoControl={{ isOn: false, onClick: () => {} }}/>;
+export const FocusIsOff = () => <ControlsGroup {...DefaultData} focusControl={{ isOn: false, onClick: () => {} }}/>;
+export const FocusIsOn = () => <ControlsGroup {...DefaultData} focusControl={{ isOn: true, onClick: () => {} }}/>;

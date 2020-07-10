@@ -74,20 +74,19 @@ export default function Controls({ localUserRole, focusMode }) {
   return (
     <ControlsGroup
       microphoneControl={{
-        enabled: microphoneEnabled,
+        isOn: microphoneEnabled,
         banned: focusMode,
         onClick: onMicrophoneButtonClick,
       }}
       videoControl={{
-        enabled: videoEnabled,
+        isOn: videoEnabled,
         onClick: onVideoButtonClick,
       }}
       focusControl={ localUserRole === USER_ROLES.TEACHER ? {
-        enabled: focus,
+        isOn: focus,
         onClick: onFocusButtonClick,
       } : null}
       exitControl={{
-        enabled: true,
         onClick: onExitButtonClick,
       }}
     />

@@ -5,12 +5,13 @@
   position: absolute;
   bottom: 0;
   right: 45%;
-  background-color: $azure-x-11-web-color;
+  background-color: $primary-light;
   border-radius: 5px 5px 0px 0px;
-  opacity: 50%;
+  opacity: 0.5;
+  align-items: center;
 
   &:hover {
-    opacity: 100%;
+    opacity: 1;
   }
 }
 

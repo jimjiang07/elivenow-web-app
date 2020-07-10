@@ -2,19 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ControlButton from "./ControlButton";
 
-const MicrophoneButton = ({ enabled, onClick, banned }) => {
+const MicrophoneButton = ({ isOn, onClick, banned }) => {
   return (
     <ControlButton
       onClick={onClick}
-      active={enabled}
+      active={!banned}
     >
-      {banned ? <i className="flaticon-microphone" /> : <i className="flaticon-microphone-1" />}
+      <i className="material-icons md-24">{ isOn ? 'mic' : 'mic_off'}</i>
     </ControlButton>
   )
 }
 
 MicrophoneButton.propTypes = {
-  enabled: PropTypes.bool.isRequired,
+  isOn: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired,
 }
 

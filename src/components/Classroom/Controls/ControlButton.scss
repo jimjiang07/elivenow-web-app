@@ -1,12 +1,13 @@
 .ControlButton {
   border: none;
   background: transparent;
-  color: $light-grey;
-  font-size: 14px;
+  color: $primary-brand-dark;
+  text-align: center;
+  line-height: 50%;
 }
 
-.ControlButton.active {
-  color: $sapphire-blue;
+.ControlButton.disabled {
+  color: $primary-light;
 }
 
 .ControlButton:focus,
