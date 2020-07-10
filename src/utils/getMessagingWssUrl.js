@@ -1,3 +1,3 @@
 export default function getMessagingWssUrl() {
-  return 'wss://ws.elivenow.co/';
+  return process.env.NODE_ENV === 'development' ? 'ws://localhost:4001/' : 'wss://ws.elivenow.co/';
 }

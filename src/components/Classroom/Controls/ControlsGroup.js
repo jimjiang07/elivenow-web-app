@@ -17,7 +17,8 @@ const ControlsGroup = ({ microphoneControl, videoControl, exitControl, focusCont
 }
 
 const controlType = PropTypes.shape({
-  enabled: PropTypes.bool.isRequired,
+  isOn: PropTypes.bool,
+  disabled: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
 })
 

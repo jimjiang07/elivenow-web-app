@@ -128,7 +128,7 @@ export default function RemoteVideoGroup({ localUserRole }) {
           [],
         )
 
-        return ( <VideoTile getVideoElementRef={getElementRef} hidden={!visibleIndex} containerStyle={videoContainerStyle}/> );
+        return ( <VideoTile key={key} getVideoElementRef={getElementRef} hidden={!visibleIndex} containerStyle={videoContainerStyle}/> );
       })}
     </div>
   )

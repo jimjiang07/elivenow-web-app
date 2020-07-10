@@ -1,4 +1,4 @@
 
 export default function getBaseUrl() {
-  return 'https://api.elivenow.co/';
+  return process.env.NODE_ENV === 'development' ? 'http://localhost:4000/dev/' : 'https://api.elivenow.co/';
 }

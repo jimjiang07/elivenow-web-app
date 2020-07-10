@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React from 'react';
-import { Redirect, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Redirect, HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Lobby from './components/Lobby';
 import Classroom from './components/Classroom';
 

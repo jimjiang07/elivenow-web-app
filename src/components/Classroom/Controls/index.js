@@ -60,8 +60,10 @@ export default function Controls({ localUserRole, focusMode }) {
   }
 
   const onExitButtonClick = () => {
-    setVideoEnabled(false);
     chime.leaveRoom(localUserRole === USER_ROLES.TEACHER);
+    if (localUserRole === USER_ROLES.TEACHER) {
+      chime.sendMessage('endClass');
+    }
     history.push('/');
   }
 
@@ -75,7 +77,7 @@ export default function Controls({ localUserRole, focusMode }) {
     <ControlsGroup
       microphoneControl={{
         isOn: microphoneEnabled,
-        banned: focusMode,
+        disabled: focusMode,
         onClick: onMicrophoneButtonClick,
       }}
       videoControl={{

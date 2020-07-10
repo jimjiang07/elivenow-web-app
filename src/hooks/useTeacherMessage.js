@@ -3,12 +3,14 @@
 
 import { useContext, useEffect, useState, useCallback } from 'react';
 
+import { useHistory } from 'react-router-dom';
 import getChimeContext from '../context/getChimeContext';
 import getMeetingContext from '../context/getMeetingContext';
 import { USER_ROLES } from '../constants';
 
 export default function useTeacherMessage() {
   const chime = useContext(getChimeContext());
+  const history = useHistory();
   const { localUserRole } = useContext(getMeetingContext());
   const [focusMode, setFocusMode] = useState(false);
 
@@ -26,6 +28,11 @@ export default function useTeacherMessage() {
     setFocusMode(!!payload.focus);
   }, [chime.audioVideo, localUserRole]);
 
+  const handleEndClass = useCallback(() => {
+    chime.leaveRoom(localUserRole === USER_ROLES.TEACHER);
+    history.push('/');
+  },[history, chime, localUserRole]);
+
   useEffect(() => {
     const callback = (message) => {
       const { type, payload } = message;
@@ -36,13 +43,15 @@ export default function useTeacherMessage() {
 
       if (type === 'focus') {
         handleFocus(message);
+      } else if (type === 'EndClass') {
+        handleEndClass();
       }
     };
     chime.subscribeToMessageUpdate(callback);
     return () => {
       chime.unsubscribeFromMessageUpdate(callback);
     };
-  }, [chime, localUserRole, handleFocus]);
+  }, [chime, localUserRole, handleFocus, handleEndClass]);
 
   return {
     focusMode,
