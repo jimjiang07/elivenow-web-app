@@ -16,11 +16,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background-color: gray;
+  background-color: $primary-lightdark;
 
   /* font */
   line-height: 200px;
-  color: black;
+  color: $primary-dark;
   text-align: center;
   font-size: 22px;
 }

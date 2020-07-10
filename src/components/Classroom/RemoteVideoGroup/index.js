@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useCallback, useState } from 'react';
 import getChimeContext from '../../../context/getChimeContext';
 import VideoTile from '../../VideoTile';
 import { MAX_REMOTE_VIDEOS, USER_ROLES } from '../../../constants';
-import './RemoteVideoGroup.css';
 
 const STUDENT_TILES_LAYOUT = {
   GRID: 'grid',

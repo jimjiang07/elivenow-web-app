@@ -22,14 +22,14 @@
 }
 
 /* Ripple effect */
-.ripple {
+.ControlButton.ripple {
   background-position: center;
   transition: background 0.3s;
 }
-.ripple:hover {
+.ControlButton.ripple:hover {
   background: $primary-light radial-gradient(circle, transparent 1%, $primary-light 1%) center/15000%;
 }
-.ripple:active {
+.ControlButton.ripple:active {
   background-color: $primary-brand;
   background-size: 100%;
   opacity: .3;

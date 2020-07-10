@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import classNames from 'classnames'
 import getChimeContext from '../../context/getChimeContext';
-import './VideoTile.css';
 
 const VideoTile = ({ getVideoElementRef, hidden = false, placeHolderText, containerStyle = {} }) => {
   const chime = useContext(getChimeContext());
