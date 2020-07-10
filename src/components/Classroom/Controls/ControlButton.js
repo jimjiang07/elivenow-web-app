@@ -6,7 +6,7 @@ const ControlButton = ({ children, onClick, disabled }) => {
   return (
     <button
       type="button"
-      className={classNames('ControlButton', {
+      className={classNames('ControlButton ripple', {
         disabled,
       })}
       onClick={onClick}

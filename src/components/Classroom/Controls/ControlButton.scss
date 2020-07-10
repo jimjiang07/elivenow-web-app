@@ -4,6 +4,11 @@
   color: $primary-brand-dark;
   text-align: center;
   line-height: 50%;
+  border-radius: 5px;
+
+  &:hover {
+    color: $primary-dark;
+  }
 }
 
 .ControlButton.disabled {
@@ -13,4 +18,19 @@
 .ControlButton:focus,
 .ControlButton:active {
   outline: none;
+}
+
+/* Ripple effect */
+.ripple {
+  background-position: center;
+  transition: background 0.3s;
+}
+.ripple:hover {
+  background: $primary-light radial-gradient(circle, transparent 1%, $primary-light 1%) center/15000%;
+}
+.ripple:active {
+  background-color: $primary-brand;
+  background-size: 100%;
+  opacity: .3;
+  transition: background 0s;
 }
