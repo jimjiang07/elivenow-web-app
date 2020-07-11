@@ -113,7 +113,7 @@ export default function RemoteVideoGroup({ localUserRole }) {
     });
   }, [chime]);
 
-  const renderStudentTiles = (layout = STUDENT_TILES_LAYOUT.VERTICAL_LEFT, videoContainerStyle = {}) => (
+  const renderStudentTiles = (layout = STUDENT_TILES_LAYOUT.VERTICAL_LEFT) => (
     <div className={`remote-video-group__students ${layout}`}>
       {Array.from(Array(numberOfStudentTile).keys()).map((key, index) => {
         const visibleIndex = visibleIndices[index];
@@ -128,14 +128,14 @@ export default function RemoteVideoGroup({ localUserRole }) {
           [],
         )
 
-        return ( <VideoTile key={key} getVideoElementRef={getElementRef} hidden={!visibleIndex} containerStyle={videoContainerStyle}/> );
+        return ( <VideoTile key={key} getVideoElementRef={getElementRef} hidden={!visibleIndex}/> );
       })}
     </div>
   )
 
   const teacherLayout = () => (
     <div className='remote-video-group__teacher-view'>
-      {renderStudentTiles(STUDENT_TILES_LAYOUT.GRID, { width: 355, height: 200 })}
+      {renderStudentTiles(STUDENT_TILES_LAYOUT.GRID)}
     </div>
   );
 
