@@ -1,14 +1,21 @@
+import get from 'lodash/get'
 import React, { useContext } from 'react';
 import classNames from 'classnames'
 import getChimeContext from '../../context/getChimeContext';
+import { extractUserInfo } from '../../utils/user'
 
-const VideoTile = ({ getVideoElementRef, hidden = false, placeHolderText }) => {
+const VideoTile = ({ getVideoElementRef, tileInfo = null, placeHolderText, showNameTag }) => {
   const chime = useContext(getChimeContext());
+  const hasTileInfo = !!tileInfo;
+  const hasVideo = get(tileInfo, 'hasVideo', false);
+  const userInfo = extractUserInfo(get(tileInfo, 'externalUserId'));
+
   const videoTileClassName = classNames('video-tile', {
-    hidden,
+    hidden: !hasVideo,
   });
   const placeHolderClassName = classNames('video-tile__place-holder', {
-    hidden: !hidden,
+    hidden: hasVideo,
+    taken: hasTileInfo,
   });
 
   const containerClassName = classNames('video-tile-container');
@@ -23,7 +30,8 @@ const VideoTile = ({ getVideoElementRef, hidden = false, placeHolderText }) => {
             muted
             ref={getVideoElementRef}
           />
-          <div className={placeHolderClassName}>{placeHolderText}</div>
+          {showNameTag && userInfo.userName && hasVideo && <div className='video-tile__name-tag'>{userInfo.userName}</div>}
+          <div className={placeHolderClassName}>{userInfo.userName || placeHolderText}</div>
         </>
         : <img
             className={'video-tile'}

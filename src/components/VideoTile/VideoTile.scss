@@ -20,8 +20,22 @@
 
   /* font */
   line-height: 200px;
-  color: $primary-dark;
+  color: $primary-light;
   text-align: center;
   font-size: 22px;
+
+  &.taken {
+    background-color: $primary-dark;
+  }
 }
 
+.video-tile__name-tag {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: $primary-dark;
+  background-color: $primary-light;
+  padding: 2px 5px;
+  opacity: 80%;
+  font-size: 12px;
+}

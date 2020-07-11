@@ -19,35 +19,50 @@ export default function RemoteVideoGroup({ localUserRole }) {
   const numberOfStudentTile = localUserRole === USER_ROLES.STUDENT ? MAX_REMOTE_VIDEOS - 1 : MAX_REMOTE_VIDEOS;
   const tiles = new Array(numberOfStudentTile).fill(undefined);
 
-  const acquireVideoTile = (tileId) => {
-    const existingIndex = tiles.findIndex((item) => item === tileId);
+  const acquireTile = (externalUserId, tileId = null) => {
+    const existingIndex = tiles.findIndex((item) => item && item.externalUserId === externalUserId);
 
     if (existingIndex >= 0) {
+      tiles[existingIndex].tileId = tileId;
       return existingIndex;
     }
 
     const index = tiles.findIndex((item) => item === undefined);
 
     if (index >= 0) {
-      tiles[index] = tileId;
+      tiles[index] = {
+        externalUserId,
+        tileId
+      };
     }
 
     return index
   }
 
-  const releaseStudentVideoIndex = (tileId) => {
-    const index = tiles.findIndex((item) => item === tileId);
+  const releaseStudentVideoIndex = useCallback(
+    (tileId) => {
+      const index = tiles.findIndex((item) => item && item.tileId === tileId);
 
-    if (index) {
-      tiles[index] = undefined;
-      setVisibleIndices(previousVisibleIndices => ({
-        ...previousVisibleIndices,
-        [index]: null
-      }));
-    }
+      console.log('releaseStudentVideoIndex', tileId, tiles, index)
 
-    return undefined;
-  }
+      if (index >= 0) {
+        tiles[index] = undefined;
+
+        setVisibleIndices(previousVisibleIndices => {
+          const newIndice = Object.assign({}, previousVisibleIndices[index]);
+          newIndice.hasVideo = false;
+
+          return {
+            ...previousVisibleIndices,
+            [index]: newIndice,
+          }
+        });
+      }
+
+      return undefined;
+    },
+    [tiles],
+  )
 
   const releaseTeacherVideo = (tileId) => {
     setTeacherIndice((prev) => {
@@ -64,6 +79,26 @@ export default function RemoteVideoGroup({ localUserRole }) {
     if (!chime) {
       return;
     }
+
+    // chime.audioVideo.realtimeSubscribeToAttendeeIdPresence((presentAttendeeId, present, externalUserId) => {
+    //   console.log(`Attendee ID: ${presentAttendeeId} Present: ${present}`);
+    //   if (present) {
+    //     const index = acquireTile(externalUserId);
+
+    //     if (index < 0) {
+    //       return;
+    //     }
+
+    //     setVisibleIndices(previousVisibleIndices => ({
+    //       ...previousVisibleIndices,
+    //       [index]: {
+    //         externalUserId,
+    //         hasVideo: false,
+    //       }
+    //     }));
+    //   } else {
+    //   }
+    // })
 
     chime.audioVideo.addObserver({
       videoTileDidUpdate: (tileState)=> {
@@ -87,7 +122,9 @@ export default function RemoteVideoGroup({ localUserRole }) {
           return;
         }
 
-        const index = acquireVideoTile(tileState.tileId);
+        const index = acquireTile(tileState.boundExternalUserId, tileState.tileId);
+
+        console.log('Found index: ', index, tileState.boundExternalUserId, tileState.tileId);
 
         if (index < 0) {
           return;
@@ -101,8 +138,9 @@ export default function RemoteVideoGroup({ localUserRole }) {
         setVisibleIndices(previousVisibleIndices => ({
           ...previousVisibleIndices,
           [index]: {
-            boundAttendeeId: tileState.boundAttendeeId,
-            boundExternalUserId: tileState.boundExternalUserId
+            externalUserId: tileState.boundExternalUserId,
+            tileId: tileState.tileId,
+            hasVideo: true,
           }
         }));
       },
@@ -111,6 +149,8 @@ export default function RemoteVideoGroup({ localUserRole }) {
         releaseStudentVideoIndex(tileId);
       }
     });
+
+
   }, [chime]);
 
   const renderStudentTiles = (layout = STUDENT_TILES_LAYOUT.VERTICAL_LEFT) => (
@@ -128,7 +168,7 @@ export default function RemoteVideoGroup({ localUserRole }) {
           [],
         )
 
-        return ( <VideoTile key={key} getVideoElementRef={getElementRef} hidden={!visibleIndex}/> );
+        return ( <VideoTile key={key} getVideoElementRef={getElementRef} tileInfo={visibleIndex} showNameTag={true}/> );
       })}
     </div>
   )
@@ -153,7 +193,7 @@ export default function RemoteVideoGroup({ localUserRole }) {
     return (
       <div className='remote-video-group__student-view'>
         {renderStudentTiles(STUDENT_TILES_LAYOUT.VERTICAL_LEFT)}
-        <VideoTile getVideoElementRef={getTeacherElementRef} hidden={!teacherIndice} containerStyle={{
+        <VideoTile getVideoElementRef={getTeacherElementRef} tileInfo={{ hasVideo: !!teacherIndice }} containerStyle={{
           width: '100%',
           height: '100vh'
         }}/>

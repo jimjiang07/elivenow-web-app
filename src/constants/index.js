@@ -15,7 +15,7 @@ export const MEETING_STATUS = {
   FAILED: 'failed'
 }
 
-export const DEFAULT_ROOM_NAME = 'ELiveNowBeta';
+export const DEFAULT_ROOM_NAME = 'elivenowbeta';
 
 export const DEFAULT_REGION = 'ap-southeast-2';
 
