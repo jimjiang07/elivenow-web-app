@@ -1,11 +1,12 @@
 .remote-video-group__students.grid {
-  width: 100%;
+  width: 90%;
   height: 100vh;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  background-color: $primary-lightdark;
+  margin: 0 auto;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  overflow: hidden;
 }
 
 .remote-video-group__students.vertical_left {
@@ -18,7 +19,6 @@
   flex-direction: column;
   justify-content: flex-start;
   z-index: 1;
-  background-color: $primary-lightdark;
   position: relative;
   flex-shrink: 0;
 }
@@ -49,46 +49,13 @@
   overflow: hidden;
 }
 
-.remote-video-group__teacher-tile {
-  /* height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-  overflow: hidden;
-  position: fixed;
-  z-index: 0; */
-  width: 100%;
-  height: 100vh;
-}
-
-.remote-video-group__teacher-tile-video-place-holder {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background-color: $primary-lightdark;
-
-  /* font */
-  line-height: 200px;
-  color: $primary-dark;
-  text-align: center;
-  font-size: 22px;
-}
-
-.remote-video-group__video.hidden,
-.remote-video-group__teacher-tile-video-place-holder.hidden {
-  display: none;
-  overflow: hidden;
-}
-
-.remote-video-group__video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .remote-video-group__student-view {
   display: flex;
+  overflow: hidden;
+
+  &> .video-tile-container {
+    width: 100%;
+    height: 100vh;
+  }
 }
 
