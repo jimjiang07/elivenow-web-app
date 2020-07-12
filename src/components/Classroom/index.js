@@ -36,7 +36,9 @@ const Classroom = () => {
         return;
       }
 
-      if (localUserRole === USER_ROLES.STUDENT) {
+      if (localUserRole === USER_ROLES.TEACHER) {
+        chime.audioVideo.realtimeUnmuteLocalAudio();
+      } else if (localUserRole === USER_ROLES.STUDENT) {
         chime.audioVideo.realtimeMuteLocalAudio();
       }
     }

@@ -306,6 +306,7 @@ export default class ChimeSdkWrapper {
         value: audioInputs[0].deviceId
       };
       await this.audioVideo.chooseAudioInputDevice(audioInputs[0].deviceId);
+      this.audioVideo.realtimeMuteLocalAudio();
     }
 
     const audioOutputs = await this.audioVideo.listAudioOutputDevices();
