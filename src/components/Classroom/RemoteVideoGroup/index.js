@@ -6,7 +6,7 @@ import { MAX_REMOTE_VIDEOS, USER_ROLES } from '../../../constants';
 const STUDENT_TILES_LAYOUT = {
   GRID: 'grid',
   VERTICAL_LEFT: 'vertical_left',
-}
+};
 
 export default function RemoteVideoGroup({ localUserRole }) {
   const chime = useContext(getChimeContext());
@@ -16,9 +16,13 @@ export default function RemoteVideoGroup({ localUserRole }) {
   const videoElements = [];
   let teacherTileElement = null;
 
-  const numberOfStudentTile = localUserRole === USER_ROLES.STUDENT ? MAX_REMOTE_VIDEOS - 1 : MAX_REMOTE_VIDEOS;
+  const numberOfStudentTile =
+    localUserRole === USER_ROLES.STUDENT
+      ? MAX_REMOTE_VIDEOS - 1
+      : MAX_REMOTE_VIDEOS;
   const tiles = new Array(numberOfStudentTile).fill(undefined);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const acquireVideoTile = (tileId) => {
     const existingIndex = tiles.findIndex((item) => item === tileId);
 
@@ -32,33 +36,35 @@ export default function RemoteVideoGroup({ localUserRole }) {
       tiles[index] = tileId;
     }
 
-    return index
-  }
+    return index;
+  };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const releaseStudentVideoIndex = (tileId) => {
     const index = tiles.findIndex((item) => item === tileId);
 
     if (index) {
       tiles[index] = undefined;
-      setVisibleIndices(previousVisibleIndices => ({
+      setVisibleIndices((previousVisibleIndices) => ({
         ...previousVisibleIndices,
-        [index]: null
+        [index]: null,
       }));
     }
 
     return undefined;
-  }
+  };
 
   const releaseTeacherVideo = (tileId) => {
     setTeacherIndice((prev) => {
-      if(prev === tileId) {
+      if (prev === tileId) {
         return undefined;
       }
       return prev;
     });
-  }
+  };
 
-  const isTeacherTitle = (externalUserId) => externalUserId && externalUserId.includes(USER_ROLES.TEACHER);
+  const isTeacherTitle = (externalUserId) =>
+    externalUserId && externalUserId.includes(USER_ROLES.TEACHER);
 
   useEffect(() => {
     if (!chime) {
@@ -66,7 +72,7 @@ export default function RemoteVideoGroup({ localUserRole }) {
     }
 
     chime.audioVideo.addObserver({
-      videoTileDidUpdate: (tileState)=> {
+      videoTileDidUpdate: (tileState) => {
         if (
           !tileState.boundAttendeeId ||
           tileState.localTile ||
@@ -80,7 +86,7 @@ export default function RemoteVideoGroup({ localUserRole }) {
         if (isTeacher) {
           chime.audioVideo.bindVideoElement(
             tileState.tileId,
-            teacherTileElement,
+            teacherTileElement
           );
 
           setTeacherIndice(tileState.tileId);
@@ -95,23 +101,29 @@ export default function RemoteVideoGroup({ localUserRole }) {
 
         chime.audioVideo.bindVideoElement(
           tileState.tileId,
-          videoElements[index],
+          videoElements[index]
         );
 
-        setVisibleIndices(previousVisibleIndices => ({
+        setVisibleIndices((previousVisibleIndices) => ({
           ...previousVisibleIndices,
           [index]: {
             boundAttendeeId: tileState.boundAttendeeId,
-            boundExternalUserId: tileState.boundExternalUserId
-          }
+            boundExternalUserId: tileState.boundExternalUserId,
+          },
         }));
       },
       videoTileWasRemoved: (tileId) => {
         releaseTeacherVideo(tileId);
         releaseStudentVideoIndex(tileId);
-      }
+      },
     });
-  }, [chime]);
+  }, [
+    acquireVideoTile,
+    chime,
+    releaseStudentVideoIndex,
+    teacherTileElement,
+    videoElements,
+  ]);
 
   const renderStudentTiles = (layout = STUDENT_TILES_LAYOUT.VERTICAL_LEFT) => (
     <div className={`remote-video-group__students ${layout}`}>
@@ -125,40 +137,47 @@ export default function RemoteVideoGroup({ localUserRole }) {
               videoElements[index] = element;
             }
           },
-          [],
-        )
+          [index]
+        );
 
-        return ( <VideoTile key={key} getVideoElementRef={getElementRef} hidden={!visibleIndex}/> );
+        return (
+          <VideoTile
+            key={key}
+            getVideoElementRef={getElementRef}
+            hidden={!visibleIndex}
+          />
+        );
       })}
     </div>
-  )
+  );
 
   const teacherLayout = () => (
-    <div className='remote-video-group__teacher-view'>
+    <div className="remote-video-group__teacher-view">
       {renderStudentTiles(STUDENT_TILES_LAYOUT.GRID)}
     </div>
   );
 
   const studentLayout = () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const getTeacherElementRef = useCallback(
-      (element) => {
-        if (element) {
-          teacherTileElement = element;
-        }
-      },
-      [],
-    )
+    const getTeacherElementRef = useCallback((element) => {
+      if (element) {
+        teacherTileElement = element;
+      }
+    }, []);
 
     return (
-      <div className='remote-video-group__student-view'>
+      <div className="remote-video-group__student-view">
         {renderStudentTiles(STUDENT_TILES_LAYOUT.VERTICAL_LEFT)}
-        <VideoTile getVideoElementRef={getTeacherElementRef} hidden={!teacherIndice} containerStyle={{
-          width: '100%',
-          height: '100vh'
-        }}/>
+        <VideoTile
+          getVideoElementRef={getTeacherElementRef}
+          hidden={!teacherIndice}
+          containerStyle={{
+            width: '100%',
+            height: '100vh',
+          }}
+        />
       </div>
-    )
+    );
   };
 
   return (
