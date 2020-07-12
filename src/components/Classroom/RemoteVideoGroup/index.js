@@ -22,7 +22,6 @@ export default function RemoteVideoGroup({ localUserRole }) {
       : MAX_REMOTE_VIDEOS;
   const tiles = new Array(numberOfStudentTile).fill(undefined);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const acquireVideoTile = (tileId) => {
     const existingIndex = tiles.findIndex((item) => item === tileId);
 
@@ -39,7 +38,6 @@ export default function RemoteVideoGroup({ localUserRole }) {
     return index;
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const releaseStudentVideoIndex = (tileId) => {
     const index = tiles.findIndex((item) => item === tileId);
 
@@ -107,8 +105,8 @@ export default function RemoteVideoGroup({ localUserRole }) {
         setVisibleIndices((previousVisibleIndices) => ({
           ...previousVisibleIndices,
           [index]: {
-            boundAttendeeId: tileState.boundAttendeeId,
-            boundExternalUserId: tileState.boundExternalUserId,
+            attendeeId: tileState.boundAttendeeId,
+            externalUserId: tileState.boundExternalUserId,
           },
         }));
       },
@@ -117,12 +115,9 @@ export default function RemoteVideoGroup({ localUserRole }) {
         releaseStudentVideoIndex(tileId);
       },
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    acquireVideoTile,
     chime,
-    releaseStudentVideoIndex,
-    teacherTileElement,
-    videoElements,
   ]);
 
   const renderStudentTiles = (layout = STUDENT_TILES_LAYOUT.VERTICAL_LEFT) => (
@@ -144,7 +139,8 @@ export default function RemoteVideoGroup({ localUserRole }) {
           <VideoTile
             key={key}
             getVideoElementRef={getElementRef}
-            hidden={!visibleIndex}
+            tileInfo={visibleIndex}
+            showNameTag={true}
           />
         );
       })}
@@ -170,11 +166,7 @@ export default function RemoteVideoGroup({ localUserRole }) {
         {renderStudentTiles(STUDENT_TILES_LAYOUT.VERTICAL_LEFT)}
         <VideoTile
           getVideoElementRef={getTeacherElementRef}
-          hidden={!teacherIndice}
-          containerStyle={{
-            width: '100%',
-            height: '100vh',
-          }}
+          tileInfo={teacherIndice}
         />
       </div>
     );

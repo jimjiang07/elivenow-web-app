@@ -49,39 +49,13 @@
   overflow: hidden;
 }
 
-.remote-video-group__teacher-tile {
-  width: 100%;
-  height: 100vh;
-}
-
-.remote-video-group__teacher-tile-video-place-holder {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background-color: $primary-lightdark;
-
-  /* font */
-  line-height: 200px;
-  color: $primary-dark;
-  text-align: center;
-  font-size: 22px;
-}
-
-.remote-video-group__video.hidden,
-.remote-video-group__teacher-tile-video-place-holder.hidden {
-  display: none;
-  overflow: hidden;
-}
-
-.remote-video-group__video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .remote-video-group__student-view {
   display: flex;
+  overflow: hidden;
+
+  &> .video-tile-container {
+    width: 100%;
+    height: 100vh;
+  }
 }
 
