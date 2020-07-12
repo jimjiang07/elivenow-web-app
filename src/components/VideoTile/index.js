@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import classNames from 'classnames'
 import getChimeContext from '../../context/getChimeContext';
 
-const VideoTile = ({ getVideoElementRef, hidden = false, placeHolderText, containerStyle = {} }) => {
+const VideoTile = ({ getVideoElementRef, hidden = false, placeHolderText }) => {
   const chime = useContext(getChimeContext());
   const videoTileClassName = classNames('video-tile', {
     hidden,
@@ -11,8 +11,10 @@ const VideoTile = ({ getVideoElementRef, hidden = false, placeHolderText, contai
     hidden: !hidden,
   });
 
+  const containerClassName = classNames('video-tile-container');
+
   return (
-    <div className='video-tile-container' style={containerStyle}>
+    <div className={containerClassName}>
       {
         chime ?
         <>
