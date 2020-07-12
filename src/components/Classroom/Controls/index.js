@@ -61,9 +61,6 @@ export default function Controls({ localUserRole, focusMode }) {
 
   const onExitButtonClick = () => {
     chime.leaveRoom(localUserRole === USER_ROLES.TEACHER);
-    if (localUserRole === USER_ROLES.TEACHER) {
-      chime.sendMessage('endClass');
-    }
     history.push('/');
   }
 

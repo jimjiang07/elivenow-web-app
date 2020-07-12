@@ -398,6 +398,9 @@ export default class ChimeSdkWrapper {
   leaveRoom = async (end) => {
     try {
       this.audioVideo.stop();
+      if (end) {
+        this.sendMessage('endClass');
+      }
     } catch (error) {
       this.logError(error);
     }
