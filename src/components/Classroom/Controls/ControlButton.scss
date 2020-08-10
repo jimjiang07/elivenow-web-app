@@ -1,19 +1,25 @@
 .ControlButton {
   border: none;
-  background: transparent;
-  color: $primary-brand-dark;
+  background: $neon-purple;
+  color: $primary-white;
   text-align: center;
   line-height: 50%;
-  border-radius: 5px;
-  padding: 10px;
+  border-radius: 40px;
+  padding: 12px;
 
   &:hover {
-    color: $secondary-brand;
+    background: lighten($neon-purple, $amount: 10%);
+    color: $neon-red;
+    padding: 10px;
+    i {
+      font-size: 28px;
+    }
   }
 }
 
 .ControlButton.disabled {
-  color: $primary-lightdark;
+  color: $neon-red;
+  background: $primary-lightdark;
 }
 
 .ControlButton:focus,
@@ -27,10 +33,11 @@
   transition: background 0.3s;
 }
 .ControlButton.ripple:hover {
-  background: $primary-light radial-gradient(circle, transparent 1%, $primary-light 1%) center/15000%;
+  background: $neon-purple radial-gradient(circle, transparent 1%, $neon-purple 1%) center/15000%;
+  opacity: 90%;
 }
 .ControlButton.ripple:active {
-  background-color: $primary-brand;
+  background-color: $neon-purple;
   background-size: 100%;
   opacity: .3;
   transition: background 0s;

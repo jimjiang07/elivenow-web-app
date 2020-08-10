@@ -7,5 +7,6 @@ export default {
   excludeStories: /.*Data$/,
 };
 
-export const Enabled = () => <MicrophoneButton enabled={true} onClick={() => {}}/>;
-export const Disabled = () => <MicrophoneButton enabled={false} onClick={() => {}}/>;
+export const on = () => <MicrophoneButton isOn onClick={() => {}}/>;
+export const off = () => <MicrophoneButton onClick={() => {}}/>;
+export const Disabled = () => <MicrophoneButton disabled={true} onClick={() => {}}/>;
