@@ -8,13 +8,14 @@
   line-height: 50%;
   border-radius: 40px;
   padding: 12px;
+  font-size: 12px;
 
   &:hover {
     background: lighten($neon-purple, $amount: 40%);
   }
 
   span {
-    margin: 0 0 0 10px;
+    margin: 0 0 0 5px;
   }
 
   &.red {
