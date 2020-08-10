@@ -1,4 +1,6 @@
 .ControlButton {
+  display: flex;
+  align-items: center;
   border: none;
   background: $neon-purple;
   color: $primary-white;
@@ -8,37 +10,47 @@
   padding: 12px;
 
   &:hover {
-    background: lighten($neon-purple, $amount: 10%);
+    background: lighten($neon-purple, $amount: 40%);
+  }
+
+  span {
+    margin: 0 0 0 10px;
+  }
+
+  &.red {
+    background: $neon-red;
+  }
+
+  &.disabled {
     color: $neon-red;
-    padding: 10px;
-    i {
-      font-size: 28px;
+    background: $primary-lightdark;
+  }
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+
+  &.ripple {
+    background-position: center;
+    transition: background 0.5s;
+    &:hover {
+      background: lighten($neon-purple, $amount: 10%)
+        radial-gradient(
+          circle,
+          transparent 1%,
+          lighten($neon-purple, $amount: 10%) 1%
+        )
+        center/10000%;
+      opacity: 90%;
+    }
+    &:active {
+      background-color: $neon-purple;
+      background-size: 100%;
+      opacity: 0.3;
+      transition: background 0s;
     }
   }
 }
 
-.ControlButton.disabled {
-  color: $neon-red;
-  background: $primary-lightdark;
-}
 
-.ControlButton:focus,
-.ControlButton:active {
-  outline: none;
-}
-
-/* Ripple effect */
-.ControlButton.ripple {
-  background-position: center;
-  transition: background 0.3s;
-}
-.ControlButton.ripple:hover {
-  background: $neon-purple radial-gradient(circle, transparent 1%, $neon-purple 1%) center/15000%;
-  opacity: 90%;
-}
-.ControlButton.ripple:active {
-  background-color: $neon-purple;
-  background-size: 100%;
-  opacity: .3;
-  transition: background 0s;
-}

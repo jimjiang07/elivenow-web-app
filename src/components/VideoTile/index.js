@@ -23,10 +23,15 @@ const VideoTile = ({
   });
   const containerClassName = classNames('video-tile-container');
 
+  console.log(hidden, placeHolderClassName, videoTileClassName);
+
   return (
     <div className={containerClassName}>
       {chime ? (
-        <video className={videoTileClassName} muted ref={getVideoElementRef} />
+        <>
+          <video className={videoTileClassName} muted ref={getVideoElementRef} />
+          <div className={placeHolderClassName}>{placeHolderText}</div>
+        </>
       ) : (
         <img
           className='video-tile'
@@ -37,7 +42,6 @@ const VideoTile = ({
       {showNameTag && userName && (
         <div className="video-tile__name-tag">{userName}</div>
       )}
-      <div className={placeHolderClassName}>{placeHolderText}</div>
     </div>
   );
 };

@@ -163,7 +163,6 @@ export default function RemoteVideoGroup({ localUserRole }) {
 
     return (
       <div className="remote-video-group__student-view">
-        {renderStudentTiles(STUDENT_TILES_LAYOUT.VERTICAL_LEFT)}
         <VideoTile
           getVideoElementRef={getTeacherElementRef}
           tileInfo={teacherIndice}

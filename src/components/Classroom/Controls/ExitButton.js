@@ -6,8 +6,10 @@ const ExitButton = ({ onClick }) => {
   return (
     <ControlButton
       onClick={onClick}
+      color={'red'}
     >
-      <i className="material-icons md-24">exit_to_app</i>
+      <i className="material-icons md-24">highlight_off</i>
+      <span>LEAVE CLASS</span>
     </ControlButton>
   )
 }
