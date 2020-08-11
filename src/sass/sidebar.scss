@@ -1,0 +1,57 @@
+.sidebar {
+  width: 286px;
+  height: 100vh;
+  background-color: #27263c;
+  color: $primary-white;
+
+  .controlBtns {
+    border-bottom: solid 2px #414054;
+
+    button {
+      border: none;
+      background-color: transparent;
+      color: $primary-white;
+      padding: 12px 20px;
+    }
+  }
+
+  .list-item--student {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+
+    .initial,
+    .mic,
+    .cam {
+      margin-right: 12px;
+    }
+
+    .initial {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, #523EFF 4.5%, #FF4286 100%);
+
+      & > span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+      }
+    }
+
+    .mic,
+    .cam {
+      color: #FF4286;
+
+      &.active {
+        color: #DADADA;
+      }
+    }
+
+    .name {
+      text-transform: uppercase;
+    }
+  }
+}
