@@ -3,7 +3,7 @@ $primary-white: #FFFF;
 $primary-light: #e8f1f2;
 $primary-lightdark: #191830;
 $primary-dark: #040305;
-$primary-brand-dark: #006494;;
+$primary-brand-dark: #27263c;;
 $primary-brand-lightdark: #247ba0;
 $primary-brand: #523EFF;
 $primary-brand-light: #3AFFFB;
@@ -16,3 +16,6 @@ $secondary-brand: #FF4286;
 $neon-purple: #523EFF;
 $neon-red: #FF4286;
 $neon-green: #4CCFCC;
+
+// neon combo color
+$neon-purple-red: linear-gradient(90deg, $neon-purple 4.5%, $neon-red 100%);

@@ -2,7 +2,7 @@ import React, { useState, Fragment } from 'react';
 import classNames from 'classnames';
 
 const VIEW_STUDENT_LIST = 'VIEW_STUDENT_LIST';
-const VIEW_COMMENTS = 'VIEW_COMMENTS';
+const VIEW_CHAT = 'VIEW_CHAT';
 
 const Sidebar = ({ studentCount, students, comments }) => {
   const [activeView, setActiveView] = useState(VIEW_STUDENT_LIST);
@@ -20,6 +20,13 @@ const Sidebar = ({ studentCount, students, comments }) => {
     collapsed: collapsed,
   });
 
+  const listTabBtnClassNames = classNames('sidebar-tabs--button', {
+    selected: activeView === VIEW_STUDENT_LIST,
+  });
+  const chatTabBtnClassNames = classNames('sidebar-tabs--button', {
+    selected: activeView === VIEW_CHAT,
+  });
+
   return (
     <aside className={sideBarClassNames}>
       <button
@@ -33,22 +40,26 @@ const Sidebar = ({ studentCount, students, comments }) => {
 
       {/* content */}
       <div className={sideBarContentClassNames}>
-        <div className="controlBtns">
+        <div className="sidebar-tabs">
           <button
+            className={listTabBtnClassNames}
             type="button"
             onClick={() => {
               setActiveView(VIEW_STUDENT_LIST);
             }}
           >
+            <i className="material-icons md-24">list</i>
             LIST
           </button>
           <button
+            className={chatTabBtnClassNames}
             type="button"
             onClick={() => {
-              setActiveView(VIEW_COMMENTS);
+              setActiveView(VIEW_CHAT);
             }}
           >
-            COMMENT
+            <i className="material-icons md-18">chat_bubble_outline</i>
+            CHAT
           </button>
         </div>
         {activeView === VIEW_STUDENT_LIST && (
@@ -56,10 +67,10 @@ const Sidebar = ({ studentCount, students, comments }) => {
             {students.length > 0 &&
               students.map((student, index) => {
                 const { studentInit, isMicActive, isCamActive, name } = student;
-                const micClasses = classNames('mic material-icons md-24', {
+                const micClasses = classNames('mic material-icons md-18', {
                   active: isMicActive,
                 });
-                const camClasses = classNames('cam material-icons md-24', {
+                const camClasses = classNames('cam material-icons md-18', {
                   active: isCamActive,
                 });
                 return (
@@ -79,7 +90,7 @@ const Sidebar = ({ studentCount, students, comments }) => {
               })}
           </Fragment>
         )}
-        {activeView === VIEW_COMMENTS && <div>comments</div>}
+        {activeView === VIEW_CHAT && <div>comments</div>}
       </div>
     </aside>
   );

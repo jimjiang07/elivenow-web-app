@@ -2,7 +2,7 @@
   width: 300px;
   height: 100vh;
   overflow: hidden;
-  background-color: #27263c;
+  background-color: $primary-brand-dark;
   color: $primary-white;
   transition: all 0.2s ease-in-out;
 
@@ -24,7 +24,7 @@
     font-size: 24px;
     line-height: 28px;
     color: $primary-white;
-    background-color: #27263c;
+    background-color: $primary-brand-dark;
     outline: none;
     border: none;
 
@@ -47,14 +47,34 @@
     }
   }
 
-  .controlBtns {
+  .sidebar-tabs {
     border-bottom: solid 2px #414054;
+    display: flex;
 
-    button {
+    .sidebar-tabs--button {
       border: none;
+      outline: none;
       background-color: transparent;
       color: $primary-white;
       padding: 12px 20px;
+
+      font-weight: 600;
+
+      display: flex;
+      align-items: center;
+
+      opacity: 0.6;
+
+      &.selected {
+        opacity: 1;
+        border-bottom: 3px solid;
+        border-image-slice: 1;
+        border-image-source: $neon-purple-red;
+      }
+
+      i {
+        margin-right: 10px;
+      }
     }
   }
 
@@ -63,18 +83,16 @@
     align-items: center;
     padding: 12px 20px;
 
-    .initial,
-    .mic,
-    .cam {
-      margin-right: 12px;
-    }
+    font-size: 14px;
 
     .initial {
       position: relative;
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      background: linear-gradient(90deg, #523EFF 4.5%, #FF4286 100%);
+      background: $neon-purple-red;
+
+      margin-right: 10px;
 
       & > span {
         position: absolute;
@@ -84,16 +102,17 @@
       }
     }
 
-    .mic,
-    .cam {
-      color: #FF4286;
+    i {
+      color: $neon-red;
+      margin-right: 5px;
 
       &.active {
-        color: #DADADA;
+        color: $neon-green;
       }
     }
 
     .name {
+      margin-left: 5px;
       text-transform: uppercase;
     }
   }
