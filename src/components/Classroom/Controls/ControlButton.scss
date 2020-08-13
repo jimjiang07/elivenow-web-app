@@ -49,7 +49,7 @@
           lighten($neon-purple, $amount: 10%) 1%
         )
         center/10000%;
-      opacity: 90%;
+      opacity: 0.9;
     }
     &:active {
       background-color: $neon-purple;
