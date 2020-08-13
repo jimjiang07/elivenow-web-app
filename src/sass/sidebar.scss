@@ -4,7 +4,6 @@
   overflow: hidden;
   background-color: $primary-brand-dark;
   color: $primary-white;
-  transition: height 0.2s ease-in-out;
 
   position: fixed;
   top: 0px;
@@ -12,8 +11,8 @@
 
   &.collapsed {
     right: 20px;
-    height: 70px;
-    width: 280px;
+    height: auto;
+    width: auto;
     border-radius: 40px;
     margin-top: 20px;
     opacity: 0.8;
@@ -36,9 +35,8 @@
 
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 40px 50px 20px 50px;
-
-    transition: height 0.2s ease-in-out;
 
     .sidebar-toggle--count {
       font-weight: 600;
@@ -48,8 +46,16 @@
     }
 
     &.collapsed {
+      font-size: 14px;
+      text-transform: uppercase;
       border-radius: 40px;
-      padding: 20px 50px 20px 50px;
+      padding: 15px 26px;
+    }
+  }
+
+  .sidebar-content {
+    &.collapsed {
+      display: none;
     }
   }
 

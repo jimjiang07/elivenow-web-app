@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import MicrophoneButton from './MicrophoneButton';
 import VideoButton from './VideoButton';
 import FocusButton from './FocusButton';
+import ExitButton from './ExitButton';
 
 const ControlsGroup = ({ microphoneControl, videoControl, exitControl, focusControl = null }) => {
   return (
@@ -10,6 +11,7 @@ const ControlsGroup = ({ microphoneControl, videoControl, exitControl, focusCont
       <MicrophoneButton {...microphoneControl}/>
       <VideoButton {...videoControl}/>
       {focusControl && <FocusButton {...focusControl}/>}
+      {exitControl && <ExitButton {...exitControl}/>}
     </div>
   )
 }

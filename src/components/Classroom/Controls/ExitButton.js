@@ -7,6 +7,7 @@ const ExitButton = ({ onClick }) => {
     <ControlButton
       onClick={onClick}
       color={'red'}
+      position={'left'}
     >
       <i className="material-icons md-24">highlight_off</i>
       <span>LEAVE CLASS</span>

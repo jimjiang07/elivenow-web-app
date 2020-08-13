@@ -22,6 +22,12 @@
     background: $neon-red;
   }
 
+  // position
+  &.left {
+    position: fixed;
+    left: 20px;
+  }
+
   &.disabled {
     color: $neon-red;
     background: $primary-lightdark;
