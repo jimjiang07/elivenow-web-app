@@ -4,7 +4,7 @@ import classNames from 'classnames';
 const VIEW_STUDENT_LIST = 'VIEW_STUDENT_LIST';
 const VIEW_CHAT = 'VIEW_CHAT';
 
-const Sidebar = ({ studentCount, students, comments }) => {
+const StudentSidebar = ({ attendeeCount, attendees }) => {
   const [activeView, setActiveView] = useState(VIEW_STUDENT_LIST);
   const [collapsed, setCollapsed] = useState(true);
 
@@ -34,7 +34,7 @@ const Sidebar = ({ studentCount, students, comments }) => {
         className={sideBarToggleClassNames}
         onClick={() => setCollapsed(!collapsed)}
       >
-        Attendees <span className="sidebar-toggle--count">({studentCount})</span>
+        Attendees <span className="sidebar-toggle--count">({attendeeCount})</span>
         <i className="material-icons md-24">{collapsed ? 'add' : 'remove'}</i>
       </button>
 
@@ -64,9 +64,9 @@ const Sidebar = ({ studentCount, students, comments }) => {
         </div>
         {activeView === VIEW_STUDENT_LIST && (
           <Fragment>
-            {students.length > 0 &&
-              students.map((student, index) => {
-                const { studentInit, isMicActive, isCamActive, name } = student;
+            {attendees.length > 0 &&
+              attendees.map((attendee, index) => {
+                const { attendeeInit, isMicActive, isCamActive, name } = attendee;
                 const micClasses = classNames('mic material-icons md-18', {
                   active: isMicActive,
                 });
@@ -74,9 +74,9 @@ const Sidebar = ({ studentCount, students, comments }) => {
                   active: isCamActive,
                 });
                 return (
-                  <div key={index} className="list-item--student">
+                  <div key={index} className="list-item--attendee">
                     <div className="initial">
-                      <span>{studentInit}</span>
+                      <span>{attendeeInit}</span>
                     </div>
                     <i className={micClasses}>
                       {isMicActive ? 'mic' : 'mic_off'}
@@ -84,18 +84,23 @@ const Sidebar = ({ studentCount, students, comments }) => {
                     <i className={camClasses}>
                       {isCamActive ? 'videocam' : 'videocam_off'}
                     </i>
-                    <span className="name">{name}</span>
+                    <div className="name">{name}</div>
                   </div>
                 );
               })}
           </Fragment>
         )}
-        {activeView === VIEW_CHAT && <div>comments</div>}
+        {activeView === VIEW_CHAT && <div></div>}
       </div>
     </aside>
   );
 };
 
-Sidebar.propTypes = {};
+StudentSidebar.defaultProps = {
+  attendees: [],
+  attendeeCount: 0,
+}
 
-export default Sidebar;
+StudentSidebar.propTypes = {};
+
+export default StudentSidebar;

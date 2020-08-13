@@ -1,35 +1,35 @@
 import React from 'react';
 
-import Sidebar from '../components/common/Sidebar';
+import { StudentSideBar } from '../components/Classroom/Sidebar';
 
 export default {
   title: 'Sidebar',
-  component: Sidebar,
+  component: StudentSideBar,
 };
 
 const props = {
-  studentCount: 12,
-  students: [
+  attendeeCount: 12,
+  attendees: [
     {
-      studentInit: 'BS',
+      attendeeInit: 'BS',
       isMicActive: true,
       isCamActive: true,
       name: 'Brooklyn S.'
     },
     {
-      studentInit: 'BS',
+      attendeeInit: 'BS',
       isMicActive: false,
       isCamActive: true,
       name: 'Brooklyn S.'
     },
     {
-      studentInit: 'DR',
+      attendeeInit: 'DR',
       isMicActive: true,
       isCamActive: false,
       name: 'Dianne R.'
     },
     {
-      studentInit: 'AM',
+      attendeeInit: 'AM',
       isMicActive: false,
       isCamActive: false,
       name: 'Arlene M.'
@@ -37,4 +37,5 @@ const props = {
   ],
 };
 
-export const Text = () => <Sidebar {...props} />;
+export const WithAttendees = () => <StudentSideBar {...props} />;
+export const WithNoAttendee = () => <StudentSideBar attendeeCount={0} attendees={[]}/>;
