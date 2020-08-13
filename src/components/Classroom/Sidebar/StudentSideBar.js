@@ -1,10 +1,18 @@
 import React, { useState, Fragment } from 'react';
+import useRoster from '../../../hooks/useRoster';
 import classNames from 'classnames';
 
 const VIEW_STUDENT_LIST = 'VIEW_STUDENT_LIST';
 const VIEW_CHAT = 'VIEW_CHAT';
 
-const StudentSidebar = ({ attendeeCount, attendees }) => {
+const getNameInitials = (name = '') => {
+  return name
+    .split(' ')
+    .map((item) => item[0].toUpperCase())
+    .join('');
+};
+
+const StudentSidebar = () => {
   const [activeView, setActiveView] = useState(VIEW_STUDENT_LIST);
   const [collapsed, setCollapsed] = useState(true);
 
@@ -27,6 +35,18 @@ const StudentSidebar = ({ attendeeCount, attendees }) => {
     selected: activeView === VIEW_CHAT,
   });
 
+  const roster = useRoster();
+
+  let attendeeIds = [];
+  let attendeeCount = 0;
+
+  if (roster) {
+    attendeeIds = Object.keys(roster).filter((attendeeId) => {
+      return !!roster[attendeeId].name;
+    });
+    attendeeCount = attendeeIds.length;
+  }
+
   return (
     <aside className={sideBarClassNames}>
       <button
@@ -34,7 +54,8 @@ const StudentSidebar = ({ attendeeCount, attendees }) => {
         className={sideBarToggleClassNames}
         onClick={() => setCollapsed(!collapsed)}
       >
-        Attendees <span className="sidebar-toggle--count">({attendeeCount})</span>
+        Attendees{' '}
+        <span className="sidebar-toggle--count">({attendeeCount})</span>
         <i className="material-icons md-24">{collapsed ? 'add' : 'remove'}</i>
       </button>
 
@@ -64,9 +85,16 @@ const StudentSidebar = ({ attendeeCount, attendees }) => {
         </div>
         {activeView === VIEW_STUDENT_LIST && (
           <Fragment>
-            {attendees.length > 0 &&
-              attendees.map((attendee, index) => {
-                const { attendeeInit, isMicActive, isCamActive, name } = attendee;
+            {attendeeIds &&
+              attendeeIds.length > 0 &&
+              attendeeIds.map((attendeeId, index) => {
+                const rosterAttendee = roster[attendeeId];
+                const { muted, name } = rosterAttendee;
+
+                const attendeeInitials = getNameInitials(name);
+                const isCamActive = true;
+                const isMicActive = !muted;
+
                 const micClasses = classNames('mic material-icons md-18', {
                   active: isMicActive,
                 });
@@ -76,7 +104,7 @@ const StudentSidebar = ({ attendeeCount, attendees }) => {
                 return (
                   <div key={index} className="list-item--attendee">
                     <div className="initial">
-                      <span>{attendeeInit}</span>
+                      <span>{attendeeInitials}</span>
                     </div>
                     <i className={micClasses}>
                       {isMicActive ? 'mic' : 'mic_off'}
@@ -99,7 +127,7 @@ const StudentSidebar = ({ attendeeCount, attendees }) => {
 StudentSidebar.defaultProps = {
   attendees: [],
   attendeeCount: 0,
-}
+};
 
 StudentSidebar.propTypes = {};
 
