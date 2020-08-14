@@ -1,4 +1,3 @@
-import get from 'lodash/get';
 import React, { useContext } from 'react';
 import classNames from 'classnames';
 import getChimeContext from '../../context/getChimeContext';
@@ -6,14 +5,13 @@ import { extractUserInfo } from '../../utils/user';
 
 const VideoTile = ({
   getVideoElementRef,
-  tileInfo = null,
+  externalUserId,
+  hidden = false,
   placeHolderText,
   showNameTag,
 }) => {
   const chime = useContext(getChimeContext());
-
-  const hidden = !tileInfo;
-  const { userName } = extractUserInfo(get(tileInfo, 'externalUserId'));
+  const { userName } = extractUserInfo(externalUserId);
 
   const videoTileClassName = classNames('video-tile', {
     hidden,
@@ -21,9 +19,9 @@ const VideoTile = ({
   const placeHolderClassName = classNames('video-tile__place-holder', {
     hidden: !hidden,
   });
-  const containerClassName = classNames('video-tile-container');
-
-  console.log(hidden, placeHolderClassName, videoTileClassName);
+  const containerClassName = classNames('video-tile-container', {
+    hidden,
+  });
 
   return (
     <div className={containerClassName}>

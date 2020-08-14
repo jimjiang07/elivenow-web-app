@@ -61,6 +61,7 @@
 
   .sidebar-tabs {
     border-bottom: solid 2px #414054;
+    margin-bottom: 3px;
     display: flex;
 
     .sidebar-tabs--button {
@@ -129,5 +130,40 @@
       margin-left: 5px;
       text-transform: uppercase;
     }
+  }
+
+  .sidebar-user-list {
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .sidebar-videos {
+    max-height: calc(100vh - 127px);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    z-index: 1;
+    position: relative;
+    flex-shrink: 0;
+
+    .video-tile-container {
+      margin: 10px 20px;
+    }
+  }
+
+  .sidebar-videos::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .sidebar-videos::-webkit-scrollbar-track {
+    background: $primary-dark;        /* color of the tracking area */
+    width: 5px;
+  }
+  .sidebar-videos::-webkit-scrollbar-thumb {
+    background: $neon-purple-red-vertical;
+    border: 3px solid $neon-purple-red-vertical;  /* creates padding around scroll thumb */
   }
 }

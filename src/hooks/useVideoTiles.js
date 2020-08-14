@@ -34,8 +34,10 @@ export default function useVideoTiles({ localUserRole, videoElements, teacherTil
   const releaseStudentVideoIndex = (tileId) => {
     const index = tiles.findIndex((item) => item === tileId);
 
-    if (index) {
-      tiles[index] = undefined;
+    console.log('releaseStudentVideoIndex', index, tiles);
+
+    if (index !== -1) {
+      delete tiles[index];
       setVisibleIndices((previousVisibleIndices) => ({
         ...previousVisibleIndices,
         [index]: null,

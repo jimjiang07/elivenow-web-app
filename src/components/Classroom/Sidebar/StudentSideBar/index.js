@@ -1,16 +1,10 @@
-import React, { useState, Fragment } from 'react';
-import useRoster from '../../../hooks/useRoster';
+import React, { useState } from 'react';
+import useRoster from '../../../../hooks/useRoster';
+import UserList from './userList'
 import classNames from 'classnames';
 
 const VIEW_STUDENT_LIST = 'VIEW_STUDENT_LIST';
 const VIEW_CHAT = 'VIEW_CHAT';
-
-const getNameInitials = (name = '') => {
-  return name
-    .split(' ')
-    .map((item) => item[0].toUpperCase())
-    .join('');
-};
 
 const StudentSidebar = () => {
   const [activeView, setActiveView] = useState(VIEW_STUDENT_LIST);
@@ -83,41 +77,7 @@ const StudentSidebar = () => {
             CHAT
           </button>
         </div>
-        {activeView === VIEW_STUDENT_LIST && (
-          <Fragment>
-            {attendeeIds &&
-              attendeeIds.length > 0 &&
-              attendeeIds.map((attendeeId, index) => {
-                const rosterAttendee = roster[attendeeId];
-                const { muted, name } = rosterAttendee;
-
-                const attendeeInitials = getNameInitials(name);
-                const isCamActive = true;
-                const isMicActive = !muted;
-
-                const micClasses = classNames('mic material-icons md-18', {
-                  active: isMicActive,
-                });
-                const camClasses = classNames('cam material-icons md-18', {
-                  active: isCamActive,
-                });
-                return (
-                  <div key={index} className="list-item--attendee">
-                    <div className="initial">
-                      <span>{attendeeInitials}</span>
-                    </div>
-                    <i className={micClasses}>
-                      {isMicActive ? 'mic' : 'mic_off'}
-                    </i>
-                    <i className={camClasses}>
-                      {isCamActive ? 'videocam' : 'videocam_off'}
-                    </i>
-                    <div className="name">{name}</div>
-                  </div>
-                );
-              })}
-          </Fragment>
-        )}
+        <UserList roster={roster} hidden={activeView !== VIEW_STUDENT_LIST}/>
         {activeView === VIEW_CHAT && <div></div>}
       </div>
     </aside>

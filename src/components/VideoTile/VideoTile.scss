@@ -1,5 +1,5 @@
 .video-tile__place-holder.hidden,
-.video-tile.hidden{
+.video-tile.hidden {
   display: none;
   overflow: hidden;
 }
@@ -30,10 +30,17 @@
   bottom: 0px;
   right: 0px;
   padding: 2px 5px;
-  background-color: $primary-light;
-  color: $primary-dark;
+  background: $neon-purple-red;
+  color: $primary-white;
+  font-size: 12px
 }
 
 .video-tile-container {
   position: relative;
+  &.hidden {
+    display: none;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
+  }
 }

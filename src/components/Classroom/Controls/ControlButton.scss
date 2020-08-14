@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   border: none;
-  background: $neon-purple;
+  background: $neon-green;
   color: $primary-white;
   text-align: center;
   line-height: 50%;
@@ -11,7 +11,7 @@
   font-size: 12px;
 
   &:hover {
-    background: lighten($neon-purple, $amount: 40%);
+    background: lighten($neon-green, $amount: 40%);
   }
 
   span {
@@ -42,17 +42,17 @@
     background-position: center;
     transition: background 0.5s;
     &:hover {
-      background: lighten($neon-purple, $amount: 10%)
+      background: lighten($neon-green, $amount: 10%)
         radial-gradient(
           circle,
           transparent 1%,
-          lighten($neon-purple, $amount: 10%) 1%
+          lighten($neon-green, $amount: 10%) 1%
         )
         center/10000%;
       opacity: 0.9;
     }
     &:active {
-      background-color: $neon-purple;
+      background-color: $neon-green;
       background-size: 100%;
       opacity: 0.3;
       transition: background 0s;
