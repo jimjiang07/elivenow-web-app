@@ -6,6 +6,7 @@ const VideoButton = ({ isOn, onClick }) => {
   return (
     <ControlButton
       onClick={onClick}
+      isOn={isOn}
     >
       <i className="material-icons md-24">{ isOn ? 'videocam' : 'videocam_off'}</i>
     </ControlButton>

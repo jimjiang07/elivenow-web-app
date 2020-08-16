@@ -11,7 +11,7 @@ import {
   FullJitterBackoff,
   LogLevel,
   MeetingSessionConfiguration,
-  ReconnectingPromisedWebSocket
+  ReconnectingPromisedWebSocket,
 } from 'amazon-chime-sdk-js';
 import { useIntl } from 'react-intl';
 import throttle from 'lodash/throttle';
@@ -624,6 +624,7 @@ export default class ChimeSdkWrapper {
    * Utilities
    * ====================================================================
    */
+
   logError = (error) => {
     // eslint-disable-next-line
     console.error(error);

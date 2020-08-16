@@ -152,6 +152,12 @@
     .video-tile-container {
       margin: 10px 20px;
     }
+
+    .local-video-tile {
+      position: initial;
+      width: auto;
+      height: auto;
+    }
   }
 
   .sidebar-videos::-webkit-scrollbar {

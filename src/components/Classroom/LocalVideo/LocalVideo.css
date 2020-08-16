@@ -1,7 +1,7 @@
 .local-video-tile {
-  width: 200px;
-  height: 113px;
+  width: 255px;
+  height: 143px;
   position: fixed;
   bottom: 50px;
-  right: 50px;
+  right: 20px;
 }

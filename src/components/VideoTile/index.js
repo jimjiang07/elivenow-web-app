@@ -9,6 +9,8 @@ const VideoTile = ({
   hidden = false,
   placeHolderText,
   showNameTag,
+  isMicActive,
+  isLocal,
 }) => {
   const chime = useContext(getChimeContext());
   const { userName } = extractUserInfo(externalUserId);
@@ -23,23 +25,37 @@ const VideoTile = ({
     hidden,
   });
 
+  const micClasses = classNames('mic material-icons md-18', {
+    active: isMicActive === true,
+    hidden: isMicActive === undefined,
+  });
+
   return (
     <div className={containerClassName}>
       {chime ? (
         <>
-          <video className={videoTileClassName} muted ref={getVideoElementRef} />
+          <video
+            className={videoTileClassName}
+            muted
+            ref={getVideoElementRef}
+          />
           <div className={placeHolderClassName}>{placeHolderText}</div>
         </>
       ) : (
         <img
-          className='video-tile'
+          className="video-tile"
           alt="test video"
           src="https://cdn.theatlantic.com/thumbor/fjk7yZScOyO526FEjDkJepEgCvw=/0x57:1088x669/720x405/media/img/mt/2015/07/minions1/original.jpg"
         />
       )}
-      {showNameTag && userName && (
-        <div className="video-tile__name-tag">{userName}</div>
+      <i className={micClasses}>{isMicActive ? 'mic' : 'mic_off'}</i>
+      {isLocal ? (
+        <div className="video-tile__name-tag">You</div>
+      ) : (
+        showNameTag &&
+        userName && <div className="video-tile__name-tag">{userName}</div>
       )}
+      {}
     </div>
   );
 };

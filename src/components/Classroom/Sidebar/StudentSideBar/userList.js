@@ -1,8 +1,11 @@
-import React, { useCallback } from 'react';
-import get from 'lodash/get'
+import React, { useCallback, useContext } from 'react';
+import get from 'lodash/get';
+
+import getMeetingContext from '../../../../context/getMeetingContext';
 import useVideoTiles from '../../../../hooks/useVideoTiles';
 import { USER_ROLES } from '../../../../constants';
 import VideoTile from '../../../VideoTile';
+import LocalVideo from '../../LocalVideo'
 import classNames from 'classnames';
 
 const getNameInitials = (name = '') => {
@@ -19,20 +22,25 @@ const UserList = ({ roster, hidden = false }) => {
     videoElements,
   });
 
+  const { localAttendeeId } = useContext(getMeetingContext());
+
   let attendeeIds = [];
 
   if (roster) {
     attendeeIds = Object.keys(roster).filter((attendeeId) => {
-      let hasVideo = true;
+      let hasVideo = false;
 
       if (visibleIndices) {
         hasVideo =
-          Object.values(visibleIndices).find(
+          Object.values(visibleIndices).findIndex(
             (item) => item && item.attendeeId === attendeeId,
           ) !== -1;
       }
-      return !!roster[attendeeId].name && hasVideo;
+
+      return !!roster[attendeeId].name && !hasVideo;
     });
+
+    console.log(roster, visibleIndices, attendeeIds);
   }
 
   const userListClassNames = classNames('sidebar-user-list', {
@@ -42,6 +50,7 @@ const UserList = ({ roster, hidden = false }) => {
   return (
     <div className={userListClassNames}>
       <div className="sidebar-videos">
+        <LocalVideo />
         {Array.from(Array(numberOfStudentTile).keys()).map((key, index) => {
           const visibleIndice = visibleIndices[index];
 
@@ -55,14 +64,25 @@ const UserList = ({ roster, hidden = false }) => {
             [index],
           );
 
+          let isMicActive;
+          const attendeeId = get(visibleIndice, 'attendeeId');
+
+          if (attendeeId) {
+            const muted = get(roster, `${attendeeId}.muted`);
+
+            if (muted !== undefined) {
+              isMicActive = !muted;
+            }
+          }
+
           return (
-            <div className="sidebar-videos--row">
+            <div className="sidebar-videos--row" key={key}>
               <VideoTile
-                key={key}
                 getVideoElementRef={getElementRef}
                 hidden={!visibleIndice}
                 externalUserId={get(visibleIndice, 'externalUserId')}
                 showNameTag={true}
+                isMicActive={isMicActive}
               />
             </div>
           );
@@ -75,15 +95,17 @@ const UserList = ({ roster, hidden = false }) => {
             const rosterAttendee = roster[attendeeId];
             const { muted, name } = rosterAttendee;
 
+            const isLocal = localAttendeeId === attendeeId;
+
+            if (isLocal) {
+              return <></>;
+            }
+
             const attendeeInitials = getNameInitials(name);
-            const isCamActive = true;
             const isMicActive = !muted;
 
             const micClasses = classNames('mic material-icons md-18', {
               active: isMicActive,
-            });
-            const camClasses = classNames('cam material-icons md-18', {
-              active: isCamActive,
             });
             return (
               <div key={index} className="list-item--attendee">
@@ -91,10 +113,7 @@ const UserList = ({ roster, hidden = false }) => {
                   <span>{attendeeInitials}</span>
                 </div>
                 <i className={micClasses}>{isMicActive ? 'mic' : 'mic_off'}</i>
-                <i className={camClasses}>
-                  {isCamActive ? 'videocam' : 'videocam_off'}
-                </i>
-                <div className="name">{name}</div>
+                <div className="name">{isLocal ? 'You' : name}</div>
               </div>
             );
           })}

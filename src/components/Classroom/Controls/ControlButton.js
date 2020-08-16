@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames";
 
-const ControlButton = ({ children, onClick, disabled, color, position }) => {
+const ControlButton = ({ children, onClick, disabled, color, position, isOn }) => {
   return (
     <button
       type="button"
@@ -11,6 +11,7 @@ const ControlButton = ({ children, onClick, disabled, color, position }) => {
         'ripple': !disabled,
         'red': color === 'red',
         'left': position === 'left',
+        'isOff': isOn !== undefined && !isOn
       })}
       onClick={onClick}
     >

@@ -7,6 +7,7 @@ const MicrophoneButton = ({ isOn, onClick, disabled }) => {
     <ControlButton
       onClick={onClick}
       disabled={disabled}
+      isOn={isOn}
     >
       <i className="material-icons md-24">{ isOn ? 'mic' : 'mic_off'}</i>
     </ControlButton>

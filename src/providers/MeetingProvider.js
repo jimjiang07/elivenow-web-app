@@ -10,6 +10,7 @@ import React, {
   useState
 } from 'react';
 import { useHistory } from 'react-router-dom';
+import get from "lodash/get";
 
 import getChimeContext from '../context/getChimeContext';
 import getMeetingContext from '../context/getMeetingContext';
@@ -24,6 +25,7 @@ export default function MeetingProvider(props) {
     meetingStatus: MEETING_STATUS.LOADING
   });
   const [localUserRole, setLocalUserRole] = useState(USER_ROLES.STUDENT);
+  const [localAttendeeId, setLocalAttendeeId] = useState();
   const history = useHistory();
   const audioElement = useRef(null);
 
@@ -54,6 +56,9 @@ export default function MeetingProvider(props) {
 
       await chime.joinRoom(audioElement.current);
 
+      console.log("localAttendeeId: ", chime.configuration);
+
+      setLocalAttendeeId(get(chime, 'configuration.credentials.attendeeId'));
       setLocalUserRole(userRole);
     } catch (error) {
       // eslint-disable-next-line
@@ -69,6 +74,7 @@ export default function MeetingProvider(props) {
     <MeetingStatusContext.Provider value={{
       meetingStatus,
       localUserRole,
+      localAttendeeId,
       startMeeting,
     }}>
       {/* eslint-disable-next-line */}

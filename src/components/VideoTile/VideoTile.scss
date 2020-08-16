@@ -27,12 +27,12 @@
 
 .video-tile__name-tag {
   position: absolute;
-  bottom: 0px;
+  top: 0px;
   right: 0px;
   padding: 2px 5px;
   background: $neon-purple-red;
   color: $primary-white;
-  font-size: 12px
+  font-size: 12px;
 }
 
 .video-tile-container {
@@ -42,5 +42,22 @@
     overflow: hidden;
     padding: 0px;
     margin: 0px;
+  }
+
+  .mic {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    border-radius: 50%;
+    padding: 5px;
+    background-color: $neon-red;
+
+    &.active {
+      background-color: $neon-green;
+    }
+
+    &.hidden {
+      display: none;
+    }
   }
 }

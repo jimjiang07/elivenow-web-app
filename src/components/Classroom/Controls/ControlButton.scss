@@ -11,14 +11,14 @@
   font-size: 12px;
 
   &:hover {
-    background: lighten($neon-green, $amount: 40%);
-  }
-
-  span {
-    margin: 0 0 0 5px;
+    opacity: 0.8;
   }
 
   &.red {
+    background: $neon-red;
+  }
+
+  &.isOff {
     background: $neon-red;
   }
 
@@ -38,25 +38,8 @@
     outline: none;
   }
 
-  &.ripple {
-    background-position: center;
-    transition: background 0.5s;
-    &:hover {
-      background: lighten($neon-green, $amount: 10%)
-        radial-gradient(
-          circle,
-          transparent 1%,
-          lighten($neon-green, $amount: 10%) 1%
-        )
-        center/10000%;
-      opacity: 0.9;
-    }
-    &:active {
-      background-color: $neon-green;
-      background-size: 100%;
-      opacity: 0.3;
-      transition: background 0s;
-    }
+  span {
+    margin: 0 0 0 5px;
   }
 }
 

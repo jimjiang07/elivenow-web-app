@@ -49,7 +49,7 @@ export default function LocalVideo() {
 
   return (
     <div className='local-video-tile'>
-      <VideoTile getVideoElementRef={videoElement} tileInfo={ videoEnabled ? {} : undefined } placeHolderText="You"/>
+      <VideoTile getVideoElementRef={videoElement} tileInfo={ videoEnabled ? {} : undefined } placeHolderText="You" isLocal />
     </div>
   );
 }
