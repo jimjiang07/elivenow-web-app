@@ -16,7 +16,8 @@
 @import '../components/Classroom/Controls/ControlButton.scss';
 
 // RemoteVideoGroup
-@import '../components/Classroom//RemoteVideoGroup/RemoteVideoGroup.scss';
+@import '../components/Classroom/TeacherView/RemoteVideoGroup.scss';
+@import 'studentView';
 
 // VideoTile
 @import '../components/VideoTile/VideoTile.scss';

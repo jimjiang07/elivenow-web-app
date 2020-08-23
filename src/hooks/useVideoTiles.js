@@ -3,10 +3,63 @@ import { useContext, useEffect, useState } from 'react';
 import getChimeContext from '../context/getChimeContext';
 import { MAX_REMOTE_VIDEOS, USER_ROLES } from '../constants';
 
-export default function useVideoTiles({ localUserRole, videoElements, teacherTile }) {
+const isTeacherTitle = (externalUserId) =>
+  externalUserId && externalUserId.includes(USER_ROLES.TEACHER);
+
+export const useTeacherTile = ({ teacherVideoElement }) => {
+  const chime = useContext(getChimeContext());
+  const [teacherIndice, setTeacherIndice] = useState();
+
+  const releaseTeacherVideo = (tileId) => {
+    setTeacherIndice((prev) => {
+      if (prev === tileId) {
+        return undefined;
+      }
+      return prev;
+    });
+  };
+
+  useEffect(() => {
+    if (!chime || !chime.audioVideo) {
+      return;
+    }
+
+    chime.audioVideo.addObserver({
+      videoTileDidUpdate: (tileState) => {
+        if (
+          !teacherVideoElement.current &&
+          (!tileState.boundAttendeeId ||
+            tileState.localTile ||
+            tileState.isContent ||
+            !tileState.tileId)
+        ) {
+          return;
+        }
+        const isTeacher = isTeacherTitle(tileState.boundExternalUserId);
+
+        if (isTeacher) {
+          chime.audioVideo.bindVideoElement(
+            tileState.tileId,
+            teacherVideoElement.current,
+          );
+          setTeacherIndice(tileState.tileId);
+          return;
+        }
+      },
+      videoTileWasRemoved: (tileId) => {
+        releaseTeacherVideo(tileId);
+      },
+    });
+  });
+
+  return {
+    teacherIndice,
+  };
+};
+
+export const useStudentsTiles = ({ localUserRole, videoElements }) => {
   const chime = useContext(getChimeContext());
   const [visibleIndices, setVisibleIndices] = useState({});
-  const [teacherIndice, setTeacherIndice] = useState();
 
   const numberOfStudentTile =
     localUserRole === USER_ROLES.STUDENT
@@ -34,7 +87,7 @@ export default function useVideoTiles({ localUserRole, videoElements, teacherTil
   const releaseStudentVideoIndex = (tileId) => {
     const index = tiles.findIndex((item) => item === tileId);
 
-    console.log('releaseStudentVideoIndex', index, tiles);
+    console.log('releaseStudentVideoIndex', tileId, index, tiles);
 
     if (index !== -1) {
       delete tiles[index];
@@ -47,22 +100,12 @@ export default function useVideoTiles({ localUserRole, videoElements, teacherTil
     return undefined;
   };
 
-  const releaseTeacherVideo = (tileId) => {
-    setTeacherIndice((prev) => {
-      if (prev === tileId) {
-        return undefined;
-      }
-      return prev;
-    });
-  };
-
-  const isTeacherTitle = (externalUserId) =>
-    externalUserId && externalUserId.includes(USER_ROLES.TEACHER);
-
   useEffect(() => {
-    if (!chime) {
+    if (!chime || !chime.audioVideo) {
       return;
     }
+
+    console.log(Date.now());
 
     chime.audioVideo.addObserver({
       videoTileDidUpdate: (tileState) => {
@@ -74,16 +117,10 @@ export default function useVideoTiles({ localUserRole, videoElements, teacherTil
         ) {
           return;
         }
+
         const isTeacher = isTeacherTitle(tileState.boundExternalUserId);
 
         if (isTeacher) {
-          console.log(teacherTile[0]);
-          teacherTile[0] && chime.audioVideo.bindVideoElement(
-            tileState.tileId,
-            teacherTile[0]
-          );
-
-          setTeacherIndice(tileState.tileId);
           return;
         }
 
@@ -93,10 +130,11 @@ export default function useVideoTiles({ localUserRole, videoElements, teacherTil
           return;
         }
 
-        videoElements[index] && chime.audioVideo.bindVideoElement(
-          tileState.tileId,
-          videoElements[index]
-        );
+        videoElements[index] &&
+          chime.audioVideo.bindVideoElement(
+            tileState.tileId,
+            videoElements[index],
+          );
 
         setVisibleIndices((previousVisibleIndices) => ({
           ...previousVisibleIndices,
@@ -107,18 +145,14 @@ export default function useVideoTiles({ localUserRole, videoElements, teacherTil
         }));
       },
       videoTileWasRemoved: (tileId) => {
-        releaseTeacherVideo(tileId);
         releaseStudentVideoIndex(tileId);
       },
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    chime,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
 
   return {
     numberOfStudentTile,
     visibleIndices,
-    teacherIndice,
   };
-}
+};

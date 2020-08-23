@@ -10,7 +10,7 @@ export default function LocalVideo() {
 
   useEffect(() => {
     async function initialize() {
-      if (!chime) {
+      if (!chime || !chime.audioVideo ) {
         return;
       }
 
@@ -49,7 +49,7 @@ export default function LocalVideo() {
 
   return (
     <div className='local-video-tile'>
-      <VideoTile getVideoElementRef={videoElement} tileInfo={ videoEnabled ? {} : undefined } placeHolderText="You" isLocal />
+      <VideoTile getVideoElementRef={videoElement} hidden={!videoEnabled} placeHolderText="You" isLocal />
     </div>
   );
 }

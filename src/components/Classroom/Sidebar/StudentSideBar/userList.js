@@ -2,10 +2,9 @@ import React, { useCallback, useContext } from 'react';
 import get from 'lodash/get';
 
 import getMeetingContext from '../../../../context/getMeetingContext';
-import useVideoTiles from '../../../../hooks/useVideoTiles';
+import { useStudentsTiles } from '../../../../hooks/useVideoTiles';
 import { USER_ROLES } from '../../../../constants';
 import VideoTile from '../../../VideoTile';
-import LocalVideo from '../../LocalVideo'
 import classNames from 'classnames';
 
 const getNameInitials = (name = '') => {
@@ -17,7 +16,7 @@ const getNameInitials = (name = '') => {
 
 const UserList = ({ roster, hidden = false }) => {
   const videoElements = [];
-  const { numberOfStudentTile, visibleIndices } = useVideoTiles({
+  const { numberOfStudentTile, visibleIndices } = useStudentsTiles({
     localUserRole: USER_ROLES.STUDENT,
     videoElements,
   });
@@ -39,8 +38,6 @@ const UserList = ({ roster, hidden = false }) => {
 
       return !!roster[attendeeId].name && !hasVideo;
     });
-
-    console.log(roster, visibleIndices, attendeeIds);
   }
 
   const userListClassNames = classNames('sidebar-user-list', {
@@ -50,7 +47,6 @@ const UserList = ({ roster, hidden = false }) => {
   return (
     <div className={userListClassNames}>
       <div className="sidebar-videos">
-        <LocalVideo />
         {Array.from(Array(numberOfStudentTile).keys()).map((key, index) => {
           const visibleIndice = visibleIndices[index];
 
@@ -76,7 +72,10 @@ const UserList = ({ roster, hidden = false }) => {
           }
 
           return (
-            <div className="sidebar-videos--row" key={key}>
+            <div
+              className="sidebar-videos--row"
+              key={`sidebar-videotile-${key}`}
+            >
               <VideoTile
                 getVideoElementRef={getElementRef}
                 hidden={!visibleIndice}
@@ -98,7 +97,7 @@ const UserList = ({ roster, hidden = false }) => {
             const isLocal = localAttendeeId === attendeeId;
 
             if (isLocal) {
-              return <></>;
+              return null;
             }
 
             const attendeeInitials = getNameInitials(name);
@@ -107,8 +106,12 @@ const UserList = ({ roster, hidden = false }) => {
             const micClasses = classNames('mic material-icons md-18', {
               active: isMicActive,
             });
+
             return (
-              <div key={index} className="list-item--attendee">
+              <div
+                key={`sidebar-users--${attendeeId}`}
+                className="list-item--attendee"
+              >
                 <div className="initial">
                   <span>{attendeeInitials}</span>
                 </div>

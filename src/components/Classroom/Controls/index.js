@@ -17,7 +17,7 @@ export default function Controls({ localUserRole, focusMode }) {
   const [focus, setFocus] = useState(false);
 
   useEffect(() => {
-    if (!chime) {
+    if (!chime || !chime.audioVideo) {
       return;
     }
 
@@ -55,6 +55,7 @@ export default function Controls({ localUserRole, focusMode }) {
       }
     } else if (videoEnabled) {
       setVideoEnabled(false);
+      console.log('stopLocalVideoTile')
       chime.audioVideo.stopLocalVideoTile();
     }
   }
