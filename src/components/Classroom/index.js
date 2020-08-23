@@ -38,6 +38,16 @@ const Classroom = () => {
       } else if (localUserRole === USER_ROLES.STUDENT) {
         chime.audioVideo.realtimeMuteLocalAudio();
       }
+
+      if (!chime.currentVideoInputDevice) {
+        throw new Error('currentVideoInputDevice does not exist');
+      }
+
+      await chime.chooseVideoInputDevice(
+        chime.currentVideoInputDevice
+      );
+
+      chime.audioVideo.startLocalVideoTile();
     }
 
     initialSetup();

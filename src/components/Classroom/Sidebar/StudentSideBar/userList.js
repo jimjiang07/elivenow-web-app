@@ -5,6 +5,7 @@ import getMeetingContext from '../../../../context/getMeetingContext';
 import { useStudentsTiles } from '../../../../hooks/useVideoTiles';
 import { USER_ROLES } from '../../../../constants';
 import VideoTile from '../../../VideoTile';
+import LocalVideo from '../../LocalVideo'
 import classNames from 'classnames';
 
 const getNameInitials = (name = '') => {
@@ -14,7 +15,7 @@ const getNameInitials = (name = '') => {
     .join('');
 };
 
-const UserList = ({ roster, hidden = false }) => {
+const UserList = ({ roster, hidden = false, collapsed }) => {
   const videoElements = [];
   const { numberOfStudentTile, visibleIndices } = useStudentsTiles({
     localUserRole: USER_ROLES.STUDENT,
@@ -47,6 +48,7 @@ const UserList = ({ roster, hidden = false }) => {
   return (
     <div className={userListClassNames}>
       <div className="sidebar-videos">
+        {!collapsed && <LocalVideo />}
         {Array.from(Array(numberOfStudentTile).keys()).map((key, index) => {
           const visibleIndice = visibleIndices[index];
 
@@ -72,10 +74,7 @@ const UserList = ({ roster, hidden = false }) => {
           }
 
           return (
-            <div
-              className="sidebar-videos--row"
-              key={`sidebar-videotile-${key}`}
-            >
+            <div className="sidebar-videos--row" key={`sidebar-videotile-${key}`}>
               <VideoTile
                 getVideoElementRef={getElementRef}
                 hidden={!visibleIndice}
@@ -108,10 +107,7 @@ const UserList = ({ roster, hidden = false }) => {
             });
 
             return (
-              <div
-                key={`sidebar-users--${attendeeId}`}
-                className="list-item--attendee"
-              >
+              <div key={`sidebar-users--${attendeeId}`} className="list-item--attendee">
                 <div className="initial">
                   <span>{attendeeInitials}</span>
                 </div>

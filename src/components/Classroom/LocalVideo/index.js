@@ -10,7 +10,16 @@ export default function LocalVideo() {
 
   useEffect(() => {
     async function initialize() {
-      if (!chime || !chime.audioVideo ) {
+      if (!chime || !chime.audioVideo) {
+        return;
+      }
+
+      const localTile = chime.audioVideo.getLocalVideoTile();
+
+      if (localTile && videoElement.current) {
+        console.log('binding local tile');
+        localTile.bindVideoElement(videoElement.current);
+        setVideoEnabled(true);
         return;
       }
 
@@ -27,19 +36,17 @@ export default function LocalVideo() {
 
           chime.audioVideo.bindVideoElement(
             tileState.tileId,
-            videoElement.current
+            videoElement.current,
           );
           setVideoEnabled(tileState.active);
-        }
+        },
       });
 
       if (!chime.currentVideoInputDevice) {
-        throw new Error('currentVideoInputDevice does not exist');
+        return;
       }
 
-      await chime.chooseVideoInputDevice(
-        chime.currentVideoInputDevice
-      );
+      await chime.chooseVideoInputDevice(chime.currentVideoInputDevice);
 
       chime.audioVideo.startLocalVideoTile();
     }
@@ -48,8 +55,13 @@ export default function LocalVideo() {
   }, [chime]);
 
   return (
-    <div className='local-video-tile'>
-      <VideoTile getVideoElementRef={videoElement} hidden={!videoEnabled} placeHolderText="You" isLocal />
+    <div className="local-video-tile">
+      <VideoTile
+        getVideoElementRef={videoElement}
+        hidden={!videoEnabled}
+        placeHolderText="You"
+        isLocal
+      />
     </div>
   );
 }

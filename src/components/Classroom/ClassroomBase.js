@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Components
 import StudentView from './StudentView';
 import TeacherView from './TeacherView';
-import LocalVideo from './LocalVideo'
+import LocalVideo from './LocalVideo';
 import Controls from './Controls';
 import { StudentSideBar } from './Sidebar';
 
 import { USER_ROLES } from '../../constants';
 
 const ClassroomBase = ({ localUserRole, focusMode }) => {
+  const [sideBarCollapsed, setsideBarCollapsed] = useState(true);
+
   return (
     <div className="classroom">
       {localUserRole === USER_ROLES.STUDENT ? (
@@ -17,9 +19,11 @@ const ClassroomBase = ({ localUserRole, focusMode }) => {
       ) : (
         <TeacherView localUserRole={localUserRole} />
       )}
-      <LocalVideo />
+      {sideBarCollapsed && <LocalVideo />}
       <Controls localUserRole={localUserRole} focusMode={focusMode} />
-      {localUserRole === USER_ROLES.STUDENT && <StudentSideBar />}
+      {localUserRole === USER_ROLES.STUDENT && (
+        <StudentSideBar onClick={() => setsideBarCollapsed(!sideBarCollapsed)} collapsed={sideBarCollapsed}/>
+      )}
     </div>
   );
 };

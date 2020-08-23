@@ -105,8 +105,6 @@ export const useStudentsTiles = ({ localUserRole, videoElements }) => {
       return;
     }
 
-    console.log(Date.now());
-
     chime.audioVideo.addObserver({
       videoTileDidUpdate: (tileState) => {
         if (

@@ -6,9 +6,8 @@ import classNames from 'classnames';
 const VIEW_STUDENT_LIST = 'VIEW_STUDENT_LIST';
 const VIEW_CHAT = 'VIEW_CHAT';
 
-const StudentSidebar = () => {
+const StudentSidebar = ({ onClick, collapsed }) => {
   const [activeView, setActiveView] = useState(VIEW_STUDENT_LIST);
-  const [collapsed, setCollapsed] = useState(true);
 
   const sideBarClassNames = classNames('sidebar', {
     collapsed: collapsed,
@@ -46,7 +45,7 @@ const StudentSidebar = () => {
       <button
         type="button"
         className={sideBarToggleClassNames}
-        onClick={() => setCollapsed(!collapsed)}
+        onClick={onClick}
       >
         Attendees{' '}
         <span className="sidebar-toggle--count">({attendeeCount})</span>
@@ -77,7 +76,7 @@ const StudentSidebar = () => {
             CHAT
           </button>
         </div>
-        <UserList roster={roster} hidden={activeView !== VIEW_STUDENT_LIST}/>
+        <UserList roster={roster} hidden={activeView !== VIEW_STUDENT_LIST} collapsed={collapsed}/>
         {activeView === VIEW_CHAT && <div></div>}
       </div>
     </aside>
