@@ -265,7 +265,7 @@ export default class ChimeSdkWrapper {
                 signalStrength * 100
               );
             }
-            if (this.title && attendeeId && !this.roster[attendeeId].name) {
+            if (this.title && attendeeId && this.roster[attendeeId] && !this.roster[attendeeId].name) {
               const response = await fetch(
                 `${getBaseUrl()}attendee?title=${encodeURIComponent(
                   this.title
@@ -398,6 +398,8 @@ export default class ChimeSdkWrapper {
   leaveRoom = async (end) => {
     try {
       this.audioVideo.stop();
+
+      console.log('leaveRoom');
       if (end) {
         this.sendMessage('endClass');
       }

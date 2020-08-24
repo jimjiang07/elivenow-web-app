@@ -41,18 +41,10 @@ export default function LocalVideo() {
           setVideoEnabled(tileState.active);
         },
       });
-
-      if (!chime.currentVideoInputDevice) {
-        return;
-      }
-
-      await chime.chooseVideoInputDevice(chime.currentVideoInputDevice);
-
-      chime.audioVideo.startLocalVideoTile();
     }
 
     initialize();
-  }, [chime]);
+  });
 
   return (
     <div className="local-video-tile">
