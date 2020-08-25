@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useCallback, useState } from 'react';
 
 import getChimeContext from '../context/getChimeContext';
 import { MAX_REMOTE_VIDEOS, USER_ROLES } from '../constants';
@@ -50,7 +50,7 @@ export const useTeacherTile = ({ teacherVideoElement }) => {
         releaseTeacherVideo(tileId);
       },
     });
-  });
+  }, [chime, teacherVideoElement]);
 
   return {
     teacherIndice,
@@ -68,26 +68,27 @@ export const useStudentsTiles = ({ localUserRole, videoElements }) => {
 
   const tiles = new Array(numberOfStudentTile).fill(undefined);
 
-  const acquireVideoTile = (tileId) => {
-    const existingIndex = tiles.findIndex((item) => item === tileId);
+  const acquireVideoTile = useCallback(
+    (tileId) => {
+      const existingIndex = tiles.findIndex((item) => item === tileId);
 
-    if (existingIndex >= 0) {
-      return existingIndex;
-    }
+      if (existingIndex >= 0) {
+        return existingIndex;
+      }
 
-    const index = tiles.findIndex((item) => item === undefined);
+      const index = tiles.findIndex((item) => item === undefined);
 
-    if (index >= 0) {
-      tiles[index] = tileId;
-    }
+      if (index >= 0) {
+        tiles[index] = tileId;
+      }
 
-    return index;
-  };
+      return index;
+    },
+    [tiles],
+  );
 
-  const releaseStudentVideoIndex = (tileId) => {
+  const releaseStudentVideoIndex = useCallback((tileId) => {
     const index = tiles.findIndex((item) => item === tileId);
-
-    console.log('releaseStudentVideoIndex', tileId, index, tiles);
 
     if (index !== -1) {
       delete tiles[index];
@@ -98,7 +99,7 @@ export const useStudentsTiles = ({ localUserRole, videoElements }) => {
     }
 
     return undefined;
-  };
+  }, [tiles]);
 
   useEffect(() => {
     if (!chime || !chime.audioVideo) {
@@ -146,8 +147,7 @@ export const useStudentsTiles = ({ localUserRole, videoElements }) => {
         releaseStudentVideoIndex(tileId);
       },
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
+  }, [acquireVideoTile, chime, releaseStudentVideoIndex, videoElements]);
 
   return {
     numberOfStudentTile,

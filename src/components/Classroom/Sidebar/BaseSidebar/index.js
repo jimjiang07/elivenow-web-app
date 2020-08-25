@@ -6,7 +6,7 @@ import classNames from 'classnames';
 const VIEW_STUDENT_LIST = 'VIEW_STUDENT_LIST';
 const VIEW_CHAT = 'VIEW_CHAT';
 
-const StudentSidebar = ({ onClick, collapsed }) => {
+const BaseSidebar = ({ onClick, collapsed }) => {
   const [activeView, setActiveView] = useState(VIEW_STUDENT_LIST);
 
   const sideBarClassNames = classNames('sidebar', {
@@ -83,11 +83,11 @@ const StudentSidebar = ({ onClick, collapsed }) => {
   );
 };
 
-StudentSidebar.defaultProps = {
+BaseSidebar.defaultProps = {
   attendees: [],
   attendeeCount: 0,
 };
 
-StudentSidebar.propTypes = {};
+BaseSidebar.propTypes = {};
 
-export default StudentSidebar;
+export default BaseSidebar;

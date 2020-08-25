@@ -44,7 +44,7 @@ export default function LocalVideo() {
     }
 
     initialize();
-  });
+  }, [chime]);
 
   return (
     <div className="local-video-tile">

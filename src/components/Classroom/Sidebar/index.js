@@ -1,1 +1,1 @@
-export { default as StudentSideBar } from './StudentSideBar'
+export { default as BaseSidebar } from './BaseSidebar'

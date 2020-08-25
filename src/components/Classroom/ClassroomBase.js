@@ -5,7 +5,7 @@ import StudentView from './StudentView';
 import TeacherView from './TeacherView';
 import LocalVideo from './LocalVideo';
 import Controls from './Controls';
-import { StudentSideBar } from './Sidebar';
+import { BaseSidebar } from './Sidebar';
 
 import { USER_ROLES } from '../../constants';
 
@@ -22,7 +22,7 @@ const ClassroomBase = ({ localUserRole, focusMode }) => {
       {sideBarCollapsed && <LocalVideo />}
       <Controls localUserRole={localUserRole} focusMode={focusMode} />
       {localUserRole === USER_ROLES.STUDENT && (
-        <StudentSideBar onClick={() => setsideBarCollapsed(!sideBarCollapsed)} collapsed={sideBarCollapsed}/>
+        <BaseSidebar onClick={() => setsideBarCollapsed(!sideBarCollapsed)} collapsed={sideBarCollapsed}/>
       )}
     </div>
   );

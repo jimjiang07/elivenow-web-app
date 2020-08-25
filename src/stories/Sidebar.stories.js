@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { StudentSideBar } from '../components/Classroom/Sidebar';
+import { BaseSidebar } from '../components/Classroom/Sidebar';
 
 export default {
   title: 'Sidebar',
-  component: StudentSideBar,
+  component: BaseSidebar,
 };
 
 const props = {
@@ -37,5 +37,5 @@ const props = {
   ],
 };
 
-export const WithAttendees = () => <StudentSideBar {...props} />;
-export const WithNoAttendee = () => <StudentSideBar attendeeCount={0} attendees={[]}/>;
+export const WithAttendees = () => <BaseSidebar {...props} />;
+export const WithNoAttendee = () => <BaseSidebar attendeeCount={0} attendees={[]}/>;
