@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 
 import getMeetingContext from '../context/getMeetingContext';
 import getChimeContext from '../context/getChimeContext';
@@ -14,7 +14,6 @@ export default function TilesProvider(props) {
   const chime = useContext(getChimeContext());
   const { localUserRole } = useContext(getMeetingContext());
   const [studentIndices, setstudentIndices] = useState({});
-  const [hasObserveTiles, setHasObserveTiles] = useState(false);
   const [videoElements, setVideoElements] = useState([]);
 
   const [teacherIndice, setTeacherIndice] = useState();
@@ -85,56 +84,45 @@ export default function TilesProvider(props) {
     });
   };
 
+  const observer = {
+    videoTileDidUpdate: (tileState) => {
+      if (
+        !tileState.boundAttendeeId ||
+        tileState.localTile ||
+        tileState.isContent ||
+        !tileState.tileId
+      ) {
+        return;
+      }
 
-  const observeTiles = useCallback(() => {
-    if (hasObserveTiles) {
-      return;
-    }
+      const isTeacher = isTeacherTitle(tileState.boundExternalUserId);
 
-    console.log('observeTiles');
+      if (isTeacher) {
+        chime.audioVideo.bindVideoElement(
+          tileState.tileId,
+          teacherVideoElement,
+        );
+        setTeacherIndice(tileState.tileId);
+        return;
+      }
 
-    chime.audioVideo.addObserver({
-      videoTileDidUpdate: (tileState) => {
-        if (
-          !tileState.boundAttendeeId ||
-          tileState.localTile ||
-          tileState.isContent ||
-          !tileState.tileId
-        ) {
-          return;
-        }
+      const index = acquireVideoTile(tileState);
 
-        const isTeacher = isTeacherTitle(tileState.boundExternalUserId);
+      if (index < 0) {
+        return;
+      }
 
-        if (isTeacher) {
-          chime.audioVideo.bindVideoElement(
-            tileState.tileId,
-            teacherVideoElement,
-          );
-          setTeacherIndice(tileState.tileId);
-          return;
-        }
-
-        const index = acquireVideoTile(tileState);
-
-        if (index < 0) {
-          return;
-        }
-
-        videoElements[index] &&
-          chime.audioVideo.bindVideoElement(
-            tileState.tileId,
-            videoElements[index],
-          );
-      },
-      videoTileWasRemoved: (tileId) => {
-        releaseStudentVideoIndex(tileId);
-        releaseTeacherVideo(tileId);
-      },
-    });
-
-    setHasObserveTiles(true);
-  }, [acquireVideoTile, chime, hasObserveTiles, releaseStudentVideoIndex, teacherVideoElement, videoElements]);
+      videoElements[index] &&
+        chime.audioVideo.bindVideoElement(
+          tileState.tileId,
+          videoElements[index],
+        );
+    },
+    videoTileWasRemoved: (tileId) => {
+      releaseStudentVideoIndex(tileId);
+      releaseTeacherVideo(tileId);
+    },
+  };
 
   const setStudentVideoElement = ({ index, element }) => {
     videoElements[index] = element;
@@ -143,13 +131,18 @@ export default function TilesProvider(props) {
     });
   };
 
-  useEffect(() => {
-    if (!chime || !chime.audioVideo) {
-      return;
+  const observeTiles = () => {
+    if (chime && chime.audioVideo) {
+      chime.audioVideo.addObserver(observer);
     }
+  };
 
-    observeTiles();
-  }, [chime, observeTiles]);
+  const resetObserver = () => {
+    if (chime && chime.audioVideo) {
+      console.log('resetObserver');
+      chime.audioVideo.removeObserver(observer);
+    }
+  };
 
   return (
     <TilesContext.Provider
@@ -158,6 +151,8 @@ export default function TilesProvider(props) {
         teacherIndice,
         setStudentVideoElement,
         setTeacherVideoElement,
+        observeTiles,
+        resetObserver,
       }}
     >
       {children}
