@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import useRoster from '../../../../hooks/useRoster';
-import UserList from './userList'
+import UserList from './userList';
+import UserListWithNoVideo from './userListWithNoVideo';
 import classNames from 'classnames';
 
 const VIEW_STUDENT_LIST = 'VIEW_STUDENT_LIST';
 const VIEW_CHAT = 'VIEW_CHAT';
 
-const BaseSidebar = ({ onClick, collapsed }) => {
+const BaseSidebar = ({ onClick, collapsed, withNoVideo = false }) => {
   const [activeView, setActiveView] = useState(VIEW_STUDENT_LIST);
 
   const sideBarClassNames = classNames('sidebar', {
@@ -76,7 +77,18 @@ const BaseSidebar = ({ onClick, collapsed }) => {
             CHAT
           </button>
         </div>
-        <UserList roster={roster} hidden={activeView !== VIEW_STUDENT_LIST} collapsed={collapsed}/>
+        {withNoVideo ? (
+          <UserListWithNoVideo
+            roster={roster}
+            hidden={activeView !== VIEW_STUDENT_LIST}
+          />
+        ) : (
+          <UserList
+            roster={roster}
+            hidden={activeView !== VIEW_STUDENT_LIST}
+            collapsed={collapsed}
+          />
+        )}
         {activeView === VIEW_CHAT && <div></div>}
       </div>
     </aside>

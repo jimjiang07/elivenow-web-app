@@ -21,9 +21,11 @@ const ClassroomBase = ({ localUserRole, focusMode }) => {
       )}
       {sideBarCollapsed && <LocalVideo />}
       <Controls localUserRole={localUserRole} focusMode={focusMode} />
-      {localUserRole === USER_ROLES.STUDENT && (
-        <BaseSidebar onClick={() => setsideBarCollapsed(!sideBarCollapsed)} collapsed={sideBarCollapsed}/>
-      )}
+      <BaseSidebar
+        onClick={() => setsideBarCollapsed(!sideBarCollapsed)}
+        collapsed={sideBarCollapsed}
+        withNoVideo={localUserRole === USER_ROLES.TEACHER}
+      />
     </div>
   );
 };

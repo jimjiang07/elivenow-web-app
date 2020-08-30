@@ -1,26 +1,24 @@
-import React, { useCallback } from 'react';
-import { useStudentsTiles } from '../../../hooks/useVideoTiles';
+import React, { useCallback, useContext } from 'react';
+import getTilesContext from '../../../context/getTilesContext';
 import VideoTile from '../../VideoTile';
+import { MAX_REMOTE_VIDEOS } from '../../../constants';
 
-export default function TeacherView({ localUserRole }) {
-  const videoElements = [];
-
-  const { numberOfStudentTile, visibleIndices } = useStudentsTiles({
-    localUserRole,
-    videoElements,
-  });
+export default function TeacherView() {
+  const { studentIndices, setStudentVideoElement } = useContext(
+    getTilesContext(),
+  );
 
   return (
     <div className="remote-video-group__teacher-view">
       <div className={`remote-video-group__students grid`}>
-        {Array.from(Array(numberOfStudentTile).keys()).map((key, index) => {
-          const visibleIndex = visibleIndices[index];
+        {Array.from(Array(MAX_REMOTE_VIDEOS).keys()).map((key, index) => {
+          const visibleIndex = studentIndices[index];
 
           // eslint-disable-next-line react-hooks/rules-of-hooks
           const getElementRef = useCallback(
             (element) => {
               if (element) {
-                videoElements[index] = element;
+                setStudentVideoElement({ index, element });
               }
             },
             [index],

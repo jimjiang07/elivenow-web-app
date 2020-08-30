@@ -9,6 +9,25 @@ export default function LocalVideo() {
   const videoElement = useRef(null);
 
   useEffect(() => {
+    const observer = {
+      videoTileDidUpdate: (tileState) => {
+        if (
+          !tileState.boundAttendeeId ||
+          !tileState.localTile ||
+          !tileState.tileId ||
+          !videoElement.current
+        ) {
+          return;
+        }
+
+        chime.audioVideo.bindVideoElement(
+          tileState.tileId,
+          videoElement.current,
+        );
+        setVideoEnabled(tileState.active);
+      },
+    };
+
     async function initialize() {
       if (!chime || !chime.audioVideo) {
         return;
@@ -23,27 +42,18 @@ export default function LocalVideo() {
         return;
       }
 
-      chime.audioVideo.addObserver({
-        videoTileDidUpdate: (tileState) => {
-          if (
-            !tileState.boundAttendeeId ||
-            !tileState.localTile ||
-            !tileState.tileId ||
-            !videoElement.current
-          ) {
-            return;
-          }
+      console.log(chime.audioVideo);
 
-          chime.audioVideo.bindVideoElement(
-            tileState.tileId,
-            videoElement.current,
-          );
-          setVideoEnabled(tileState.active);
-        },
-      });
+      chime.audioVideo.addObserver(observer);
     }
 
     initialize();
+
+    return () => {
+      if (chime && chime.audioVideo) {
+        chime.audioVideo.removeObserver(observer);
+      }
+    };
   }, [chime]);
 
   return (

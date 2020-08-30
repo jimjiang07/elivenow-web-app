@@ -2,8 +2,8 @@ import React, { useCallback, useContext } from 'react';
 import get from 'lodash/get';
 
 import getMeetingContext from '../../../../context/getMeetingContext';
-import { useStudentsTiles } from '../../../../hooks/useVideoTiles';
-import { USER_ROLES } from '../../../../constants';
+import getTilesContext from '../../../../context/getTilesContext';
+import { MAX_REMOTE_VIDEOS } from '../../../../constants';
 import VideoTile from '../../../VideoTile';
 import LocalVideo from '../../LocalVideo'
 import classNames from 'classnames';
@@ -16,11 +16,11 @@ const getNameInitials = (name = '') => {
 };
 
 const UserList = ({ roster, hidden = false, collapsed }) => {
-  const videoElements = [];
-  const { numberOfStudentTile, visibleIndices } = useStudentsTiles({
-    localUserRole: USER_ROLES.STUDENT,
-    videoElements,
-  });
+  const { studentIndices, setStudentVideoElement } = useContext(
+    getTilesContext(),
+  );
+
+  const numberOfStudentTile = MAX_REMOTE_VIDEOS - 1;
 
   const { localAttendeeId } = useContext(getMeetingContext());
 
@@ -30,9 +30,9 @@ const UserList = ({ roster, hidden = false, collapsed }) => {
     attendeeIds = Object.keys(roster).filter((attendeeId) => {
       let hasVideo = false;
 
-      if (visibleIndices) {
+      if (studentIndices) {
         hasVideo =
-          Object.values(visibleIndices).findIndex(
+          Object.values(studentIndices).findIndex(
             (item) => item && item.attendeeId === attendeeId,
           ) !== -1;
       }
@@ -50,13 +50,13 @@ const UserList = ({ roster, hidden = false, collapsed }) => {
       <div className="sidebar-videos">
         {!collapsed && <LocalVideo />}
         {Array.from(Array(numberOfStudentTile).keys()).map((key, index) => {
-          const visibleIndice = visibleIndices[index];
+          const visibleIndice = studentIndices[index];
 
           // eslint-disable-next-line react-hooks/rules-of-hooks
           const getElementRef = useCallback(
             (element) => {
               if (element) {
-                videoElements[index] = element;
+                setStudentVideoElement({ index, element });
               }
             },
             [index],
@@ -74,7 +74,10 @@ const UserList = ({ roster, hidden = false, collapsed }) => {
           }
 
           return (
-            <div className="sidebar-videos--row" key={`sidebar-videotile-${key}`}>
+            <div
+              className="sidebar-videos--row"
+              key={`sidebar-videotile-${key}`}
+            >
               <VideoTile
                 getVideoElementRef={getElementRef}
                 hidden={!visibleIndice}
@@ -107,7 +110,10 @@ const UserList = ({ roster, hidden = false, collapsed }) => {
             });
 
             return (
-              <div key={`sidebar-users--${attendeeId}`} className="list-item--attendee">
+              <div
+                key={`sidebar-users--${attendeeId}`}
+                className="list-item--attendee"
+              >
                 <div className="initial">
                   <span>{attendeeInitials}</span>
                 </div>
