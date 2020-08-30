@@ -133,15 +133,15 @@
   }
 
   .sidebar-user-list {
+    max-height: calc(100vh - 127px);
+    overflow-x: hidden;
+    overflow-y: scroll;
     &.hidden {
       display: none;
     }
   }
 
   .sidebar-videos {
-    max-height: calc(100vh - 127px);
-    overflow-x: hidden;
-    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -160,15 +160,15 @@
     }
   }
 
-  .sidebar-videos::-webkit-scrollbar {
+  .sidebar-user-list::-webkit-scrollbar {
     width: 5px;
   }
 
-  .sidebar-videos::-webkit-scrollbar-track {
+  .sidebar-user-list::-webkit-scrollbar-track {
     background: $primary-dark;        /* color of the tracking area */
     width: 5px;
   }
-  .sidebar-videos::-webkit-scrollbar-thumb {
+  .sidebar-user-list::-webkit-scrollbar-thumb {
     background: $neon-purple-red-vertical;
     border: 3px solid $neon-purple-red-vertical;  /* creates padding around scroll thumb */
   }
