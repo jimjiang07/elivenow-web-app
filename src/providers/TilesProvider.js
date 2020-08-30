@@ -20,9 +20,6 @@ export default function TilesProvider(props) {
   const [teacherIndice, setTeacherIndice] = useState();
   const [teacherVideoElement, setTeacherVideoElement] = useState();
 
-  const [localVideoElement, setLocalVideoElement] = useState();
-  const [isLocalVideoEnabled, setIsLocalVideoEnabled] = useState(true);
-
   const numberOfStudentTile =
     localUserRole === USER_ROLES.STUDENT
       ? MAX_REMOTE_VIDEOS - 1
@@ -151,13 +148,6 @@ export default function TilesProvider(props) {
       return;
     }
 
-    // const localTile = chime.audioVideo.getLocalVideoTile();
-
-    // if (localTile && localVideoElement) {
-    //   localTile.bindVideoElement(localVideoElement);
-    //   setIsLocalVideoEnabled(true);
-    // }
-
     observeTiles();
   }, [chime, observeTiles]);
 
@@ -166,10 +156,8 @@ export default function TilesProvider(props) {
       value={{
         studentIndices,
         teacherIndice,
-        isLocalVideoEnabled,
         setStudentVideoElement,
         setTeacherVideoElement,
-        setLocalVideoElement,
       }}
     >
       {children}
