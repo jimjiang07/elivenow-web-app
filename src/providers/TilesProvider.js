@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from 'react';
+import React, { useContext, useState, useCallback, useRef } from 'react';
 
 import getMeetingContext from '../context/getMeetingContext';
 import getChimeContext from '../context/getChimeContext';
@@ -17,7 +17,8 @@ export default function TilesProvider(props) {
   const [videoElements, setVideoElements] = useState([]);
 
   const [teacherIndice, setTeacherIndice] = useState();
-  const [teacherVideoElement, setTeacherVideoElement] = useState();
+
+  const teacherVideoElement = useRef(null);
 
   const numberOfStudentTile =
     localUserRole === USER_ROLES.STUDENT
@@ -98,9 +99,10 @@ export default function TilesProvider(props) {
       const isTeacher = isTeacherTitle(tileState.boundExternalUserId);
 
       if (isTeacher) {
+        console.log('teacherVideoElement', teacherVideoElement.current);
         chime.audioVideo.bindVideoElement(
           tileState.tileId,
-          teacherVideoElement,
+          teacherVideoElement.current,
         );
         setTeacherIndice(tileState.tileId);
         return;
@@ -129,6 +131,10 @@ export default function TilesProvider(props) {
     setVideoElements({
       ...videoElements,
     });
+  };
+
+  const setTeacherVideoElement = (element) => {
+    teacherVideoElement.current = element;
   };
 
   const observeTiles = () => {

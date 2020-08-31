@@ -5,14 +5,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import getChimeContext from '../../../context/getChimeContext';
-import ControlsGroup from "./ControlsGroup";
+import ControlsGroup from './ControlsGroup';
 
-import { USER_ROLES } from '../../../constants'
+import { USER_ROLES, MESSAGE_TOPIC } from '../../../constants';
 
 export default function Controls({ localUserRole, focusMode }) {
   const chime = useContext(getChimeContext());
   const history = useHistory();
-  const [microphoneEnabled, setMicrophoneEnabled] = useState(localUserRole === USER_ROLES.TEACHER);
+  const [microphoneEnabled, setMicrophoneEnabled] = useState(
+    localUserRole === USER_ROLES.TEACHER,
+  );
   const [videoEnabled, setVideoEnabled] = useState(true);
   const [focus, setFocus] = useState(false);
 
@@ -40,7 +42,7 @@ export default function Controls({ localUserRole, focusMode }) {
     } else {
       chime.audioVideo.realtimeUnmuteLocalAudio();
     }
-  }
+  };
 
   const onVideoButtonClick = async () => {
     if (!videoEnabled) {
@@ -55,21 +57,21 @@ export default function Controls({ localUserRole, focusMode }) {
       }
     } else if (videoEnabled) {
       setVideoEnabled(false);
-      console.log('stopLocalVideoTile')
+      console.log('stopLocalVideoTile');
       chime.audioVideo.stopLocalVideoTile();
     }
-  }
+  };
 
   const onExitButtonClick = () => {
     chime.leaveRoom(localUserRole === USER_ROLES.TEACHER);
     history.push('/');
-  }
+  };
 
   const onFocusButtonClick = () => {
     const newFocusState = !focus;
-    chime.sendMessage('focus', { focus: newFocusState });
+    chime.sendMessage(MESSAGE_TOPIC.FOCUS, { focus: newFocusState });
     setFocus(newFocusState);
-  }
+  };
 
   return (
     <ControlsGroup
@@ -82,10 +84,14 @@ export default function Controls({ localUserRole, focusMode }) {
         isOn: videoEnabled,
         onClick: onVideoButtonClick,
       }}
-      focusControl={ localUserRole === USER_ROLES.TEACHER ? {
-        isOn: focus,
-        onClick: onFocusButtonClick,
-      } : null}
+      focusControl={
+        localUserRole === USER_ROLES.TEACHER
+          ? {
+              isOn: focus,
+              onClick: onFocusButtonClick,
+            }
+          : null
+      }
       exitControl={{
         onClick: onExitButtonClick,
       }}

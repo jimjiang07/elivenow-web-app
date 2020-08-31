@@ -49,7 +49,7 @@ export default function MeetingProvider(props) {
             MeetingSessionStatusCode.AudioCallEnded
           ) {
             history.push('/');
-            chime.leaveRoom(true);
+            chime.leaveRoom(false);
           }
         }
       });

@@ -10,8 +10,10 @@ export default function StudentView() {
   const getElementRef = useCallback(
     (element) => {
       if (element) {
-        console.log('setTeacherVideoElement');
+        console.log('setTeacherVideoElement', element);
         setTeacherVideoElement(element);
+
+        console.log()
       }
     },
     [setTeacherVideoElement],

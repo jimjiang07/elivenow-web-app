@@ -29,11 +29,6 @@ const Classroom = () => {
       return;
     }
 
-    const joinRoomMessaging = async () => {
-      await chime.joinRoomMessaging();
-    };
-    joinRoomMessaging();
-
     if (localUserRole === USER_ROLES.TEACHER) {
       chime.audioVideo.realtimeUnmuteLocalAudio();
     } else if (localUserRole === USER_ROLES.STUDENT) {
@@ -46,14 +41,12 @@ const Classroom = () => {
 
     await chime.chooseVideoInputDevice(chime.currentVideoInputDevice);
 
-    console.log('initialSetup');
-
     chime.audioVideo.startLocalVideoTile();
   }, [chime, history, localUserRole]);
 
   useEffect(() => {
     initialSetup();
-  }, [chime, history, initialSetup, localUserRole]);
+  }, [initialSetup]);
 
   useEffect(() => {
     console.log('observeTiles');
@@ -63,7 +56,7 @@ const Classroom = () => {
       console.log('resetObserver');
       resetObserver();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <ClassroomBase localUserRole={localUserRole} focusMode={focusMode} />;

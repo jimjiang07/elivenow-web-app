@@ -20,3 +20,8 @@ export const DEFAULT_ROOM_NAME = 'ELiveNowBeta';
 export const DEFAULT_REGION = 'ap-southeast-2';
 
 export const MAX_REMOTE_VIDEOS = 16;
+
+export const MESSAGE_TOPIC = {
+  FOCUS: 'focus',
+  END_CLASS: 'end_class',
+};

@@ -6,7 +6,7 @@ import { useContext, useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import getChimeContext from '../context/getChimeContext';
 import getMeetingContext from '../context/getMeetingContext';
-import { USER_ROLES } from '../constants';
+import { USER_ROLES, MESSAGE_TOPIC } from '../constants';
 
 export default function useTeacherMessage() {
   const chime = useContext(getChimeContext());
@@ -14,44 +14,45 @@ export default function useTeacherMessage() {
   const { localUserRole } = useContext(getMeetingContext());
   const [focusMode, setFocusMode] = useState(false);
 
-  const handleFocus = useCallback(({ payload }) => {
-    if (localUserRole === USER_ROLES.TEACHER) {
-      return;
-    }
-
-    chime.audioVideo.realtimeSetCanUnmuteLocalAudio(!payload.focus);
-
-    if (payload.focus === true) {
-      chime.audioVideo.realtimeMuteLocalAudio();
-    }
-
-    setFocusMode(!!payload.focus);
-  }, [chime.audioVideo, localUserRole]);
-
-  const handleEndClass = useCallback(() => {
-    chime.leaveRoom(localUserRole === USER_ROLES.TEACHER);
-    history.push('/');
-  },[history, chime, localUserRole]);
-
   useEffect(() => {
-    const callback = (message) => {
-      const { type, payload } = message;
-
-      if (!type || !payload) {
+    const handleFocus = (message) => {
+      if (localUserRole === USER_ROLES.TEACHER) {
         return;
       }
 
-      if (type === 'focus') {
-        handleFocus(message);
-      } else if (type === 'EndClass') {
-        handleEndClass();
+      const { focus } = message.json();
+
+      chime.audioVideo.realtimeSetCanUnmuteLocalAudio(!focus);
+
+      if (focus === true) {
+        chime.audioVideo.realtimeMuteLocalAudio();
       }
+
+      setFocusMode(!!focus);
     };
-    chime.subscribeToMessageUpdate(callback);
+
+    const handleEndClass = () => {
+      chime.leaveRoom(false);
+      history.push('/');
+    };
+
+    const focusMessageUpdateCallback = {
+      topic: MESSAGE_TOPIC.FOCUS,
+      callback: handleFocus,
+    };
+
+    const endClassMessageUpdateCallback = {
+      topic: MESSAGE_TOPIC.END_CLASS,
+      callback: handleEndClass,
+    };
+
+    chime.subscribeToMessageUpdate(focusMessageUpdateCallback);
+    chime.subscribeToMessageUpdate(endClassMessageUpdateCallback);
     return () => {
-      chime.unsubscribeFromMessageUpdate(callback);
+      chime.unsubscribeFromMessageUpdate(focusMessageUpdateCallback);
+      chime.unsubscribeFromMessageUpdate(endClassMessageUpdateCallback);
     };
-  }, [chime, localUserRole, handleFocus, handleEndClass]);
+  }, [chime, localUserRole, history]);
 
   return {
     focusMode,
