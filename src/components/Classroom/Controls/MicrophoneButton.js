@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import ControlButton from "./ControlButton";
 
 const MicrophoneButton = ({ isOn, onClick, disabled }) => {
+
   return (
     <ControlButton
       onClick={onClick}
       disabled={disabled}
       isOn={isOn}
+      tooltip={disabled ? 'Mic Disabled' : isOn ? 'Mic On' : 'Mic Off'}
     >
       <i className="material-icons md-24">{ isOn ? 'mic' : 'mic_off'}</i>
     </ControlButton>

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames";
 
-const ControlButton = ({ children, onClick, disabled, color, position, isOn }) => {
+const ControlButton = ({ children, onClick, disabled, color, position, tooltip, isOn }) => {
   return (
     <button
       type="button"
@@ -15,6 +15,7 @@ const ControlButton = ({ children, onClick, disabled, color, position, isOn }) =
       })}
       onClick={onClick}
     >
+      {tooltip && <span class="tooltip">{tooltip}</span>}
       {children}
     </button>
   )

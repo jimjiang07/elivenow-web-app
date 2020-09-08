@@ -9,9 +9,15 @@
   border-radius: 40px;
   padding: 12px;
   font-size: 12px;
+  position: relative;
 
   &:hover {
     opacity: 0.8;
+
+    .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
   }
 
   &.red {
@@ -40,6 +46,37 @@
 
   span {
     margin: 0 0 0 5px;
+  }
+
+  .tooltip {
+    visibility: hidden;
+    background-color: $primary-light;
+    color: $primary-lightdark;
+    width: 70px;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: 115%;
+    left: 50%;
+    margin-left: -35px;
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    &::after {
+      content: " ";
+      position: absolute;
+      top: 100%; /* At the bottom of the tooltip */
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: $primary-light transparent transparent transparent;
+    }
   }
 }
 
