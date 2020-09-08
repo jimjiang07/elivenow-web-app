@@ -316,6 +316,8 @@ export default class ChimeSdkWrapper {
     this.publishDevicesUpdated();
 
     this.audioVideo.bindAudioElement(element);
+
+    console.log('start audioVideo');
     this.audioVideo.start();
   };
 

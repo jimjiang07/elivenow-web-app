@@ -5,13 +5,13 @@ import { useContext, useEffect, useState } from 'react';
 
 import { useHistory } from 'react-router-dom';
 import getChimeContext from '../context/getChimeContext';
-import getMeetingContext from '../context/getMeetingContext';
+import getLocalUserContext from '../context/getLocalUserContext';
 import { USER_ROLES, MESSAGE_TOPIC } from '../constants';
 
 export default function useTeacherMessage() {
   const chime = useContext(getChimeContext());
   const history = useHistory();
-  const { localUserRole } = useContext(getMeetingContext());
+  const { localUserRole } = useContext(getLocalUserContext());
   const [focusMode, setFocusMode] = useState(false);
 
   useEffect(() => {

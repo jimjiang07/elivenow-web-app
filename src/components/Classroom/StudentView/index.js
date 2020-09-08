@@ -6,6 +6,7 @@ export default function StudentView() {
   const { setTeacherVideoElement, teacherIndice } = useContext(
     getTilesContext(),
   );
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const getElementRef = useCallback(
     (element) => {
@@ -16,7 +17,7 @@ export default function StudentView() {
         console.log()
       }
     },
-    [setTeacherVideoElement],
+    [],
   );
 
   return (

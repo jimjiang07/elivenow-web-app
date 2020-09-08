@@ -3,8 +3,8 @@ import { HashRouter } from 'react-router-dom';
 
 import ChimeProvider from './providers/ChimeProvider';
 import I18nProvider from './providers/I18nProvider';
-import MeetingProvider from './providers/MeetingProvider';
 import TilesProvider from './providers/TilesProvider';
+import LocalUserProvider from './providers/LocalUserProvider';
 import Routes from './Routes';
 import './App.css';
 
@@ -13,11 +13,11 @@ function App() {
     <HashRouter>
       <I18nProvider>
         <ChimeProvider>
-          <MeetingProvider>
+          <LocalUserProvider>
             <TilesProvider>
               <Routes />
             </TilesProvider>
-          </MeetingProvider>
+          </LocalUserProvider>
         </ChimeProvider>
       </I18nProvider>
     </HashRouter>

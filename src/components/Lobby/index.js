@@ -1,41 +1,30 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import BodyLayout from '../common/BodyLayout';
 import Header from '../Header';
 import CheckInForm from '../CheckInForm';
-import DeviceCheckForm from '../DeviceCheckForm';
-import Loading from '../Loading';
 
-import getMeetingContext from '../../context/getMeetingContext';
+import getLocalUserContext from '../../context/getLocalUserContext';
 
 const Lobby = (props) => {
-  const [isMeetingInitialized, setIsMeetingInitialized] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const { startMeeting } = useContext(getMeetingContext());
+  const history = useHistory();
+  const { setLocalUserName, setLocalUserRole } = useContext(
+    getLocalUserContext(),
+  );
 
   const onCheckInSubmit = async ({ userName, userRole }) => {
-    console.log(`Creating a meeting for ${userRole} ${userName}`);
-
-    setIsLoading(true);
-
-    await startMeeting({ userName, userRole });
-
-    setIsLoading(false);
-    setIsMeetingInitialized(true);
-  }
+    setLocalUserName(userName);
+    setLocalUserRole(userRole);
+    history.push('/classroom');
+  };
 
   return (
     <BodyLayout>
       <Header>ELiveNow Dance Room</Header>
-      {
-        isLoading
-          ? <Loading text={'Joining class now...'}/>
-          : isMeetingInitialized
-            ? <DeviceCheckForm />
-            : <CheckInForm onCheckInSubmit={onCheckInSubmit}/>
-      }
+      <CheckInForm onCheckInSubmit={onCheckInSubmit} />
     </BodyLayout>
   );
-}
+};
 
 export default Lobby;

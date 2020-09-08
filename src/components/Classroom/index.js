@@ -1,65 +1,38 @@
-import React, { useContext, useEffect, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
 
 // Contexts
-import getMeetingContext from '../../context/getMeetingContext';
 import getChimeContext from '../../context/getChimeContext';
-import getTilesContext from '../../context/getTilesContext';
+import getLocalUserContext from '../../context/getLocalUserContext';
+import getMeetingContext from '../../context/getMeetingContext';
 
 // Components
 import ClassroomBase from './ClassroomBase';
+import Loading from '../Loading';
 
 // Hooks
 import useTeacherMessage from '../../hooks/useTeacherMessage';
+import useDevices from "../../hooks/useDevices";
 
 // Others
-import { USER_ROLES } from '../../constants';
+import { MEETING_STATUS } from '../../constants';
 
 const Classroom = () => {
+  const { meetingStatus } = useContext(getMeetingContext());
   const chime = useContext(getChimeContext());
-  const history = useHistory();
-  const { localUserRole } = useContext(getMeetingContext());
-  const { observeTiles, resetObserver } = useContext(getTilesContext());
+  const { localUserRole } = useContext(getLocalUserContext());
 
   const { focusMode } = useTeacherMessage();
+  const deviceState = useDevices();
 
-  const initialSetup = useCallback(async () => {
-    if (!chime || !chime.audioVideo) {
-      history.push('/');
-      return;
-    }
-
-    if (localUserRole === USER_ROLES.TEACHER) {
-      chime.audioVideo.realtimeUnmuteLocalAudio();
-    } else if (localUserRole === USER_ROLES.STUDENT) {
-      chime.audioVideo.realtimeMuteLocalAudio();
-    }
-
-    if (!chime.currentVideoInputDevice) {
-      throw new Error('currentVideoInputDevice does not exist');
-    }
-
-    await chime.chooseVideoInputDevice(chime.currentVideoInputDevice);
-
-    chime.audioVideo.startLocalVideoTile();
-  }, [chime, history, localUserRole]);
-
-  useEffect(() => {
-    initialSetup();
-  }, [initialSetup]);
-
-  useEffect(() => {
-    console.log('observeTiles');
-    observeTiles();
-
-    return () => {
-      console.log('resetObserver');
-      resetObserver();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return <ClassroomBase localUserRole={localUserRole} focusMode={focusMode} />;
+  return (
+    <>
+      {meetingStatus.status === MEETING_STATUS.LOADING || !chime.currentVideoInputDevice ? (
+        <Loading text={'Joining class now...'} />
+      ) : (
+        <ClassroomBase localUserRole={localUserRole} focusMode={focusMode} deviceState={deviceState}/>
+      )}
+    </>
+  );
 };
 
 export default Classroom;
