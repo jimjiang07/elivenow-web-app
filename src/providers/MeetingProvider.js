@@ -73,7 +73,7 @@ export default function MeetingProvider(props) {
     };
 
     startMeeting();
-  }, []);
+  });
 
   return (
     <MeetingStatusContext.Provider

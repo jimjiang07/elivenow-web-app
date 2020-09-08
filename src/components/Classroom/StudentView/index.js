@@ -7,18 +7,14 @@ export default function StudentView() {
     getTilesContext(),
   );
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const getElementRef = useCallback(
-    (element) => {
-      if (element) {
-        console.log('setTeacherVideoElement', element);
-        setTeacherVideoElement(element);
+  const getElementRef = useCallback((element) => {
+    if (element) {
+      console.log('setTeacherVideoElement', element);
+      setTeacherVideoElement(element);
 
-        console.log()
-      }
-    },
-    [],
-  );
+      console.log();
+    }
+  }, [setTeacherVideoElement]);
 
   return (
     <div className="classroom__student-view">
