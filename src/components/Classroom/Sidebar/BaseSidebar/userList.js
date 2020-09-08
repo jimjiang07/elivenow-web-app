@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import get from 'lodash/get';
 
-import getMeetingContext from '../../../../context/getMeetingContext';
+import getLocalUserContext from '../../../../context/getLocalUserContext';
 import getTilesContext from '../../../../context/getTilesContext';
 import { MAX_REMOTE_VIDEOS } from '../../../../constants';
 import VideoTile from '../../../VideoTile';
@@ -22,7 +22,7 @@ const UserList = ({ roster, hidden = false, collapsed }) => {
 
   const numberOfStudentTile = MAX_REMOTE_VIDEOS - 1;
 
-  const { localAttendeeId } = useContext(getMeetingContext());
+  const { localAttendeeId } = useContext(getLocalUserContext());
 
   let attendeeIds = [];
 

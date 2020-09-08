@@ -8,6 +8,7 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import MeetingProvider from './providers/MeetingProvider';
 import Lobby from './components/Lobby';
 import Classroom from './components/Classroom';
 
@@ -22,7 +23,9 @@ export default function Routes() {
           <Lobby />
         </Route>
         <Route path="/classroom">
-          <Classroom />
+          <MeetingProvider>
+            <Classroom />
+          </MeetingProvider>
         </Route>
       </Switch>
     </Router>

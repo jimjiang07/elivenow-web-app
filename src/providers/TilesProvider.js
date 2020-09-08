@@ -1,6 +1,6 @@
 import React, { useContext, useState, useCallback, useRef } from 'react';
 
-import getMeetingContext from '../context/getMeetingContext';
+import getLocalUserContext from '../context/getLocalUserContext';
 import getChimeContext from '../context/getChimeContext';
 import getTilesContext from '../context/getTilesContext';
 import { MAX_REMOTE_VIDEOS, USER_ROLES } from '../constants';
@@ -12,7 +12,7 @@ export default function TilesProvider(props) {
   const { children } = props;
   const TilesContext = getTilesContext();
   const chime = useContext(getChimeContext());
-  const { localUserRole } = useContext(getMeetingContext());
+  const { localUserRole } = useContext(getLocalUserContext());
   const [studentIndices, setstudentIndices] = useState({});
   const [videoElements, setVideoElements] = useState([]);
 
@@ -87,6 +87,7 @@ export default function TilesProvider(props) {
 
   const observer = {
     videoTileDidUpdate: (tileState) => {
+      console.log('videoTileDidUpdate', tileState);
       if (
         !tileState.boundAttendeeId ||
         tileState.localTile ||
@@ -111,14 +112,17 @@ export default function TilesProvider(props) {
       const index = acquireVideoTile(tileState);
 
       if (index < 0) {
+        console.log('acquireVideoTile: index < 0', );
         return;
       }
 
-      videoElements[index] &&
+      if (videoElements[index]){
         chime.audioVideo.bindVideoElement(
           tileState.tileId,
           videoElements[index],
         );
+        console.log('bindVideoElement', tileState.tileId, index);
+      }
     },
     videoTileWasRemoved: (tileId) => {
       releaseStudentVideoIndex(tileId);
@@ -139,7 +143,10 @@ export default function TilesProvider(props) {
 
   const observeTiles = () => {
     if (chime && chime.audioVideo) {
+      console.log('chime.audioVideo.addObserver', observer);
       chime.audioVideo.addObserver(observer);
+    } else {
+      console.log('chime or chime.audioVideo is undefined', chime, chime.audioVideo);
     }
   };
 
